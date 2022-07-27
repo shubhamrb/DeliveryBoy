@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/dp_10">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/img_Card"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@id/ll_data"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        app:cardCornerRadius="@dimen/dp_6">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image_icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/dummy_image" />
+    </androidx.cardview.widget.CardView>
+
+
+    <LinearLayout
+        android:id="@+id/ll_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/img_Card"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_2"
+            android:ellipsize="end"
+            android:fontFamily="@font/gotham_medium"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:padding="@dimen/dp_5"
+            android:text="Lorem Ipsum is"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/sp_18" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_5"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_18sdp"
+                android:src="@drawable/pic_location" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/dp_2"
+                android:ellipsize="end"
+                android:fontFamily="@font/gotham_light"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:padding="@dimen/dp_5"
+                android:singleLine="true"
+                android:text="512, Gandhi nagar, Bhopal"
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/sp_14" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_5"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_18sdp"
+                android:src="@drawable/time_24" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/dp_2"
+                android:ellipsize="end"
+                android:fontFamily="@font/gotham_light"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:padding="@dimen/dp_5"
+                android:singleLine="true"
+                android:text="03 Jan 2022"
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/sp_14" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_5"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_accept"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="@color/colorGreen"
+                android:fontFamily="@font/gotham_medium"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:padding="@dimen/dp_8"
+                android:text="Accept"
+                android:visibility="visible"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp_12" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_reject"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/rounded_button"
+                android:fontFamily="@font/gotham_medium"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:padding="@dimen/dp_8"
+                android:text="Reject"
+                android:visibility="visible"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp_12" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/gotham_medium"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="Delivered"
+                android:layout_marginStart="@dimen/_24sdp"
+                android:textColor="@color/colorPurple"
+                android:textSize="@dimen/sp_12"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
