@@ -11,7 +11,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rainbow.deliveryboy.R;
-import com.rainbow.deliveryboy.model.getNotification.NotificationData;
+import com.rainbow.deliveryboy.model.getOrders.OrdersData;
 
 import java.util.List;
 
@@ -23,17 +23,18 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
 
 
     private Context context;
-    List<NotificationData> list;
+    List<OrdersData> list;
+    private onClickListener listener;
 
-
-    public OrderListAdapter(Context context, List<NotificationData> dataList) {
+    public OrderListAdapter(Context context, List<OrdersData> dataList, onClickListener listener) {
         this.context = context;
         this.list = dataList;
+        this.listener = listener;
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return list.size();
     }
 
     @Override
@@ -45,22 +46,12 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        OrdersData ordersData = list.get(position);
+        holder.tv_title.setText("" + ordersData.getId());
+        holder.tv_address.setText(ordersData.getAddress().getAddress_1());
+        holder.tv_date.setText(ordersData.getOrder_date().split("T")[0]);
 
-        if (position % 2 == 0) {
-            holder.btn_accept.setVisibility(View.GONE);
-            holder.btn_reject.setVisibility(View.GONE);
-            holder.tv_status.setVisibility(View.VISIBLE);
-        } else {
-            holder.tv_status.setVisibility(View.GONE);
-            holder.btn_accept.setVisibility(View.VISIBLE);
-            holder.btn_reject.setVisibility(View.VISIBLE);
-        }
-        /*NotificationData notificationData = notificationList.get(position);
-        holder.tvTitle.setText(notificationData.getTitle());
-        holder.tvNotificationText.setText(notificationData.getDescription());
-        holder.tvNotificationTime.setText(notificationData.getCreatedAt());
-
-        try {
+        /*try {
             Glide.with(context).load(notificationData.getImage())
                     .error(R.drawable.logo_icon)
                     .placeholder(R.drawable.logo_icon).into(holder.imageIcon);
@@ -68,9 +59,80 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             e.printStackTrace();
         }*/
 
+        int status = ordersData.getStatus();
+
+        holder.tv_status.setVisibility(View.GONE);
+        holder.btn_accept.setVisibility(View.GONE);
+        holder.btn_reject.setVisibility(View.GONE);
+        holder.btn_complete.setVisibility(View.VISIBLE);
+
+        switch (status) {
+            case 1:
+                holder.btn_complete.setVisibility(View.GONE);
+                holder.tv_status.setVisibility(View.VISIBLE);
+                holder.tv_status.setText("Pending");
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorDeepOrange));
+                break;
+            case 2:
+                holder.tv_status.setVisibility(View.VISIBLE);
+                holder.tv_status.setText("Accepted");
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGreen));
+                break;
+            case 3:
+                holder.btn_complete.setVisibility(View.GONE);
+                holder.tv_status.setVisibility(View.VISIBLE);
+                holder.tv_status.setText("Preparing");
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorBlack));
+
+                break;
+            case 4:
+                holder.btn_complete.setVisibility(View.GONE);
+                holder.btn_accept.setVisibility(View.VISIBLE);
+                holder.btn_reject.setVisibility(View.VISIBLE);
+                break;
+            case 5:
+                holder.tv_status.setVisibility(View.VISIBLE);
+                holder.tv_status.setText("On the way");
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorBlack));
+                break;
+            case 6:
+                holder.btn_complete.setVisibility(View.GONE);
+                holder.tv_status.setVisibility(View.VISIBLE);
+                holder.tv_status.setText("On hold");
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorRed));
+                break;
+            case 7:
+                holder.btn_complete.setVisibility(View.GONE);
+                holder.tv_status.setVisibility(View.VISIBLE);
+                holder.tv_status.setText("Canceled");
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorRed));
+
+                break;
+            case 8:
+                holder.btn_complete.setVisibility(View.GONE);
+                holder.tv_status.setVisibility(View.VISIBLE);
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorPurple));
+                holder.tv_status.setText("Delivered");
+                break;
+        }
+
+        holder.btn_accept.setOnClickListener(view -> {
+            listener.onClickButton(ordersData.getId(), 2);
+        });
+        holder.btn_reject.setOnClickListener(view -> {
+            listener.onClickButton(ordersData.getId(), 7);
+        });
+        holder.btn_complete.setOnClickListener(view -> {
+            listener.onClickButton(ordersData.getId(), 8);
+        });
+
     }
 
-    public void setList(List<NotificationData> list) {
+    public interface onClickListener {
+        void onClickButton(int position, int status);
+    }
+
+    public void setList(List<OrdersData> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -91,6 +153,8 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         AppCompatTextView btn_accept;
         @BindView(R.id.btn_reject)
         AppCompatTextView btn_reject;
+        @BindView(R.id.btn_complete)
+        AppCompatTextView btn_complete;
 
         ViewHolder(View itemView) {
             super(itemView);

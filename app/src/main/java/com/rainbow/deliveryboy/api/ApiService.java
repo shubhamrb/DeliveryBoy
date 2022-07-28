@@ -1,9 +1,9 @@
 package com.rainbow.deliveryboy.api;
 
 
-import com.rainbow.deliveryboy.model.getNotification.NotificationData;
+import com.google.gson.JsonObject;
 import com.rainbow.deliveryboy.model.getNotification.ResponseNotification;
-import com.rainbow.deliveryboy.model.resendOtp.ResendOtpResponse;
+import com.rainbow.deliveryboy.model.getOrders.OrdersData;
 import com.rainbow.deliveryboy.model.sendotp.SendOtpResponse;
 import com.rainbow.deliveryboy.model.verifyOtp.VerifyOtpResponse;
 
@@ -32,7 +32,11 @@ public interface ApiService {
 
     @Headers("Content-Type: application/json")
     @GET
-    Call<List<NotificationData>> getOrdersList(@Url String fullUrl, @Header("Authorization") String accessToken);
+    Call<List<OrdersData>> getOrdersList(@Url String fullUrl, @Header("Authorization") String accessToken);
+
+    @Headers("Content-Type: application/json")
+    @POST("updatestatus")
+    Call<JsonObject> updateStatus(@Header("Authorization") String accessToken, @Body String body);
 
     @FormUrlEncoded
     @POST("user-notification-list")

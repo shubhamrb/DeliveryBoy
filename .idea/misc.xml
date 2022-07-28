@@ -3,17 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/rounded_bg_blue.xml" value="0.179" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/dialog_enter_otp.xml" value="0.23333333333333334" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.380181884765625" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.23333333333333334" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/fragment_notification.xml" value="0.23333333333333334" />
+        <entry key="app/src/main/res/layout/fragment_orders.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/fragment_otp.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/header_layout.xml" value="0.12907608695652173" />
         <entry key="app/src/main/res/layout/row_notification_item.xml" value="0.23333333333333334" />
-        <entry key="app/src/main/res/layout/row_order_item.xml" value="0.45916720057380267" />
+        <entry key="app/src/main/res/layout/row_order_item.xml" value="0.33" />
         <entry key="app/src/main/res/layout/row_user_item.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/toolbar_back_title_layout.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/toolbar_home_title_layout.xml" value="0.23333333333333334" />

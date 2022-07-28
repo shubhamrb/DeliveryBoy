@@ -129,10 +129,6 @@ public class User {
     @Expose
     private String longitude;
 
-    @SerializedName("geo_coordinates")
-    @Expose
-    private String geo_coordinates;
-
     @SerializedName("reset_password_expires")
     @Expose
     private String reset_password_expires;
@@ -407,14 +403,6 @@ public class User {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
-    }
-
-    public String getGeo_coordinates() {
-        return geo_coordinates;
-    }
-
-    public void setGeo_coordinates(String geo_coordinates) {
-        this.geo_coordinates = geo_coordinates;
     }
 
     public String getReset_password_expires() {

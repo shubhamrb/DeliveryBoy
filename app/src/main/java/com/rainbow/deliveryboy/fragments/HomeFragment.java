@@ -5,24 +5,20 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.rainbow.deliveryboy.R;
 import com.rainbow.deliveryboy.activity.HomeActivity;
-import com.rainbow.deliveryboy.adapter.OrderListAdapter;
+import com.rainbow.deliveryboy.adapter.SectionPagerHomeAdapter;
 import com.rainbow.deliveryboy.base.BaseFragment;
-import com.rainbow.deliveryboy.model.getNotification.NotificationData;
 import com.rainbow.deliveryboy.presenter.HomePresenter;
 import com.rainbow.deliveryboy.utils.Constants;
-import com.rainbow.deliveryboy.utils.LoadMore;
 import com.rainbow.deliveryboy.views.HomeView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -39,17 +35,21 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeView> implemen
     ImageView imageViewHome;
     @BindView(R.id.imageViewNotification)
     ImageView imageViewNotification;
-    @BindView(R.id.recyclerViewOrder)
-    RecyclerView recyclerViewOrder;
+
     private SharedPreferences sharedPreferences;
 
-    private final int PAGE_LIMIT = 10;
-    private int CURRENT_PAGE = 0;
-    private LoadMore mLoadMore;
-    private boolean isLoadMore = false;
-    private OrderListAdapter orderListAdapter;
-    private List<NotificationData> orderList;
     private String strToken = "";
+
+    @BindView(R.id.viewpagermyride)
+    ViewPager viewpagermyride;
+    @BindView(R.id.text_upcoming)
+    AppCompatTextView textViewCar;
+    @BindView(R.id.layoutupcoming)
+    LinearLayout layoutupcoming;
+    @BindView(R.id.text_completed)
+    AppCompatTextView textCompleted;
+    @BindView(R.id.layoutcompleted)
+    LinearLayout layoutcompleted;
 
     @Override
     protected int createLayout() {
@@ -72,25 +72,37 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeView> implemen
         sharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         strToken = sharedPreferences.getString(Constants.TOKEN, "");
 
-        orderList = new ArrayList<>();
-        mLoadMore = new LoadMore(recyclerViewOrder);
-        mLoadMore.setLoadingMore(false);
-        recyclerViewOrder.setLayoutManager(new LinearLayoutManager(getContext()));
-        orderListAdapter = new OrderListAdapter(getContext(), orderList);
-        recyclerViewOrder.setAdapter(orderListAdapter);
+        SectionPagerHomeAdapter sectionPagerAdapter =
+                new SectionPagerHomeAdapter(getChildFragmentManager(), 2);
+        viewpagermyride.setAdapter(sectionPagerAdapter);
+        viewpagermyride.setOffscreenPageLimit(1);
+        viewpagermyride.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
 
-        mLoadMore.setOnLoadMoreListener(() -> {
-            if (isLoadMore) {
-                CURRENT_PAGE++;
-                loadOrders();
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                if (i == 0) {
+                    layoutupcoming.setBackground(getResources().getDrawable(R.drawable.rounded_bg_blue));
+                    layoutcompleted.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                    textViewCar.setTextColor(getResources().getColor(R.color.colorWhite));
+                    textCompleted.setTextColor(getResources().getColor(R.color.colorBlack));
+                } else {
+                    layoutcompleted.setBackground(getResources().getDrawable(R.drawable.rounded_bg_blue));
+                    layoutupcoming.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                    textViewCar.setTextColor(getResources().getColor(R.color.colorBlack));
+                    textCompleted.setTextColor(getResources().getColor(R.color.colorWhite));
+                }
+                viewpagermyride.setCurrentItem(i);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
             }
         });
-
-        loadOrders();
-    }
-
-    private void loadOrders() {
-        presenter.getOrders(strToken, CURRENT_PAGE, PAGE_LIMIT);
     }
 
     @Override
@@ -108,7 +120,7 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeView> implemen
         super.onResume();
     }
 
-    @OnClick({R.id.imageViewHome, R.id.imageViewNotification})
+    @OnClick({R.id.imageViewHome, R.id.imageViewNotification,R.id.layoutupcoming,R.id.layoutcompleted})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imageViewHome:
@@ -117,21 +129,20 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeView> implemen
             case R.id.imageViewNotification:
                 presenter.openNotification();
                 break;
+            case R.id.layoutupcoming:
+                layoutupcoming.setBackground(getResources().getDrawable(R.drawable.rounded_bg_blue));
+                layoutcompleted.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                textViewCar.setTextColor(getResources().getColor(R.color.colorWhite));
+                textCompleted.setTextColor(getResources().getColor(R.color.colorBlack));
+                viewpagermyride.setCurrentItem(0);
+                break;
+            case R.id.layoutcompleted:
+                layoutcompleted.setBackground(getResources().getDrawable(R.drawable.rounded_bg_blue));
+                layoutupcoming.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                textViewCar.setTextColor(getResources().getColor(R.color.colorBlack));
+                textCompleted.setTextColor(getResources().getColor(R.color.colorWhite));
+                viewpagermyride.setCurrentItem(1);
+                break;
         }
     }
-
-    @Override
-    public void setOrdersData(List<NotificationData> list) {
-        if (CURRENT_PAGE == 0) {
-            orderList.clear();
-        }
-        if (list.size() > 0) {
-            orderList.addAll(list);
-            mLoadMore.setLoadingMore(true);
-            orderListAdapter.setList(list);
-        } else {
-            mLoadMore.setLoadingMore(false);
-        }
-    }
-
 }
