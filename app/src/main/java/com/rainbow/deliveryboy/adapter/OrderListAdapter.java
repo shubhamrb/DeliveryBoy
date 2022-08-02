@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -47,7 +48,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         OrdersData ordersData = list.get(position);
-        holder.tv_title.setText("" + ordersData.getId());
+        holder.tv_title.setText(ordersData.getAddress().getName());
         holder.tv_address.setText(ordersData.getAddress().getAddress_1());
         holder.tv_date.setText(ordersData.getOrder_date().split("T")[0]);
 
@@ -65,9 +66,11 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         holder.btn_accept.setVisibility(View.GONE);
         holder.btn_reject.setVisibility(View.GONE);
         holder.btn_complete.setVisibility(View.VISIBLE);
+        holder.ll_address.setVisibility(View.VISIBLE);
 
         switch (status) {
             case 1:
+                holder.ll_address.setVisibility(View.GONE);
                 holder.btn_complete.setVisibility(View.GONE);
                 holder.tv_status.setVisibility(View.VISIBLE);
                 holder.tv_status.setText("Pending");
@@ -79,6 +82,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGreen));
                 break;
             case 3:
+                holder.ll_address.setVisibility(View.GONE);
                 holder.btn_complete.setVisibility(View.GONE);
                 holder.tv_status.setVisibility(View.VISIBLE);
                 holder.tv_status.setText("Preparing");
@@ -96,12 +100,14 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorBlack));
                 break;
             case 6:
+                holder.ll_address.setVisibility(View.GONE);
                 holder.btn_complete.setVisibility(View.GONE);
                 holder.tv_status.setVisibility(View.VISIBLE);
                 holder.tv_status.setText("On hold");
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorRed));
                 break;
             case 7:
+                holder.ll_address.setVisibility(View.GONE);
                 holder.btn_complete.setVisibility(View.GONE);
                 holder.tv_status.setVisibility(View.VISIBLE);
                 holder.tv_status.setText("Canceled");
@@ -126,10 +132,16 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             listener.onClickButton(ordersData.getId(), 8);
         });
 
+        holder.itemView.setOnClickListener(view -> {
+            if (status == 2 || status == 5)
+                listener.onClickButton(ordersData);
+        });
+
     }
 
     public interface onClickListener {
         void onClickButton(int position, int status);
+        void onClickButton(OrdersData ordersData);
     }
 
     public void setList(List<OrdersData> list) {
@@ -155,6 +167,8 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         AppCompatTextView btn_reject;
         @BindView(R.id.btn_complete)
         AppCompatTextView btn_complete;
+        @BindView(R.id.ll_address)
+        LinearLayout ll_address;
 
         ViewHolder(View itemView) {
             super(itemView);

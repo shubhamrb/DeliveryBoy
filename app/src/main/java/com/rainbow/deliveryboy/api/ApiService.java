@@ -2,7 +2,9 @@ package com.rainbow.deliveryboy.api;
 
 
 import com.google.gson.JsonObject;
+import com.rainbow.deliveryboy.model.dashboard.DashboardData;
 import com.rainbow.deliveryboy.model.getNotification.ResponseNotification;
+import com.rainbow.deliveryboy.model.getOrders.OrderItem;
 import com.rainbow.deliveryboy.model.getOrders.OrdersData;
 import com.rainbow.deliveryboy.model.sendotp.SendOtpResponse;
 import com.rainbow.deliveryboy.model.verifyOtp.VerifyOtpResponse;
@@ -23,11 +25,11 @@ import retrofit2.http.Url;
 public interface ApiService {
 
     @Headers("Content-Type: application/json")
-    @POST("sendotp")
+    @POST("deliveryboy/sendotp")
     Call<SendOtpResponse> sendOTP(@Body String body);
 
     @Headers("Content-Type: application/json")
-    @POST("login")
+    @POST("deliveryboy/login")
     Call<VerifyOtpResponse> verifyOTP(@Body String body);
 
     @Headers("Content-Type: application/json")
@@ -35,11 +37,19 @@ public interface ApiService {
     Call<List<OrdersData>> getOrdersList(@Url String fullUrl, @Header("Authorization") String accessToken);
 
     @Headers("Content-Type: application/json")
-    @POST("updatestatus")
+    @GET
+    Call<List<OrderItem>> getOrderDetail(@Url String fullUrl, @Header("Authorization") String accessToken);
+
+    @Headers("Content-Type: application/json")
+    @GET
+    Call<DashboardData> getDashboardData(@Url String fullUrl, @Header("Authorization") String accessToken);
+
+    @Headers("Content-Type: application/json")
+    @POST("deliveryboy/updatestatus")
     Call<JsonObject> updateStatus(@Header("Authorization") String accessToken, @Body String body);
 
     @FormUrlEncoded
-    @POST("user-notification-list")
+    @POST("deliveryboy/user-notification-list")
     Call<ResponseNotification> getNotificationList(@Field("api_key") String api_key,
                                                    @Field("client") String client,
                                                    @Field("token") String token);

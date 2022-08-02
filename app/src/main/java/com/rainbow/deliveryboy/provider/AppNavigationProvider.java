@@ -7,6 +7,8 @@ import com.rainbow.deliveryboy.fragments.HomeFragment;
 import com.rainbow.deliveryboy.fragments.LoginFragment;
 import com.rainbow.deliveryboy.fragments.NotificationFragment;
 import com.rainbow.deliveryboy.fragments.OTpFragment;
+import com.rainbow.deliveryboy.fragments.OrderDetailFragment;
+import com.rainbow.deliveryboy.model.getOrders.OrdersData;
 import com.rainbow.deliveryboy.navigator.AppNavigator;
 
 public abstract class AppNavigationProvider extends BaseActivity implements AppNavigator {
@@ -40,6 +42,15 @@ public abstract class AppNavigationProvider extends BaseActivity implements AppN
     public void openNotificationFragment(PerformFragment performFragment) {
         NotificationFragment notificationFragment = new NotificationFragment();
         openFragment(notificationFragment, NotificationFragment.class.getName(), performFragment, true);
+    }
+
+    @Override
+    public void openOrderDetailFragment(OrdersData ordersData, PerformFragment performFragment) {
+        OrderDetailFragment orderDetailFragment = new OrderDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("ordersData", ordersData);
+        orderDetailFragment.setArguments(bundle);
+        openFragment(orderDetailFragment, OrderDetailFragment.class.getName(), performFragment, true);
     }
 
 }

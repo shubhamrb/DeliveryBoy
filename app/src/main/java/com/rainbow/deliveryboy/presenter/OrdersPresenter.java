@@ -38,7 +38,7 @@ public class OrdersPresenter extends BasePresenter<OrdersView> {
     public void getOrders(String token, int current_page, int pagelimit) {
         view.showLoader();
         ApiService api = RetroClient.getApiService();
-        Call<List<OrdersData>> call = api.getOrdersList("orderlist/" + current_page + "/" + pagelimit, token);
+        Call<List<OrdersData>> call = api.getOrdersList("deliveryboy/orderlist/" + current_page + "/" + pagelimit, token);
         call.enqueue(new Callback<List<OrdersData>>() {
             @Override
             public void onResponse(Call<List<OrdersData>> call, Response<List<OrdersData>> response) {
@@ -97,5 +97,9 @@ public class OrdersPresenter extends BasePresenter<OrdersView> {
 
     public void openNotification() {
         navigator.openNotificationFragment(BaseActivity.PerformFragment.REPLACE);
+    }
+
+    public void openOrderDetail(OrdersData ordersData) {
+        navigator.openOrderDetailFragment(ordersData, BaseActivity.PerformFragment.REPLACE);
     }
 }

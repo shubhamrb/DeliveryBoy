@@ -1,13 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewOrder"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/row_order_item" />
-</LinearLayout>
+        android:layout_marginTop="@dimen/_20sdp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/dp_130"
+                android:layout_height="@dimen/dp_130"
+                android:layout_margin="@dimen/_5sdp"
+                android:backgroundTint="#331BC3D8"
+                app:cardCornerRadius="@dimen/dp_6">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_completed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/gotham_bold"
+                    android:lineSpacingExtra="@dimen/_5sdp"
+                    android:text="Completed\n0"
+                    android:textAlignment="center"
+                    android:textSize="16sp" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/dp_130"
+                android:layout_height="@dimen/dp_130"
+                android:layout_margin="@dimen/_5sdp"
+                android:backgroundTint="#33FFC107"
+                app:cardCornerRadius="@dimen/dp_6">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_pending"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/gotham_bold"
+                    android:lineSpacingExtra="@dimen/_5sdp"
+                    android:text="Pending\n0"
+                    android:textAlignment="center"
+                    android:textSize="16sp" />
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/dp_130"
+                android:layout_height="@dimen/dp_130"
+                android:layout_margin="@dimen/_5sdp"
+                android:backgroundTint="#33F44336"
+                app:cardCornerRadius="@dimen/dp_6">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_rejected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/gotham_bold"
+                    android:lineSpacingExtra="@dimen/_5sdp"
+                    android:text="Rejected\n0"
+                    android:textAlignment="center"
+                    android:textSize="16sp" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/dp_130"
+                android:layout_height="@dimen/dp_130"
+                android:layout_margin="@dimen/_5sdp"
+                android:backgroundTint="#332196F3"
+                app:cardCornerRadius="@dimen/dp_6">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/gotham_bold"
+                    android:lineSpacingExtra="@dimen/_5sdp"
+                    android:text="Total\n0"
+                    android:textAlignment="center"
+                    android:textSize="16sp" />
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/gotham_medium"
+            android:lineSpacingExtra="@dimen/_5sdp"
+            android:padding="@dimen/_10sdp"
+            android:text="you have received total COD amount"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/gotham_bold"
+            android:text="₹00"
+            android:textAlignment="center"
+            android:textSize="25sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/rounded_button"
+            android:backgroundTint="@color/colorBlue"
+            android:fontFamily="@font/gotham_bold"
+            android:padding="@dimen/_10sdp"
+            android:text="Request to submit amount"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</RelativeLayout>

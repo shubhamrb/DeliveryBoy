@@ -3,7 +3,9 @@ package com.rainbow.deliveryboy.model.getOrders;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class AddressData {
+import java.io.Serializable;
+
+public class AddressData implements Serializable {
     @SerializedName("id")
     @Expose
     private int id;

@@ -131,5 +131,10 @@ public class OrdersFragment extends BaseFragment<OrdersPresenter, OrdersView> im
         presenter.updateStatus(strToken, order_id, status);
     }
 
+    @Override
+    public void onClickButton(OrdersData ordersData) {
+        presenter.openOrderDetail(ordersData);
+    }
+
 
 }

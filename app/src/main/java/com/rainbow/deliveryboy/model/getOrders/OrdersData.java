@@ -3,7 +3,9 @@ package com.rainbow.deliveryboy.model.getOrders;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class OrdersData {
+import java.io.Serializable;
+
+public class OrdersData implements Serializable {
     @SerializedName("id")
     @Expose
     private int id;
@@ -16,9 +18,33 @@ public class OrdersData {
     @Expose
     private String order_date;
 
+    @SerializedName("final_price")
+    @Expose
+    private String final_price;
+
+    @SerializedName("payment_channel")
+    @Expose
+    private String payment_channel;
+
     @SerializedName("address")
     @Expose
     private AddressData address;
+
+    public String getPayment_channel() {
+        return payment_channel;
+    }
+
+    public void setPayment_channel(String payment_channel) {
+        this.payment_channel = payment_channel;
+    }
+
+    public String getFinal_price() {
+        return final_price;
+    }
+
+    public void setFinal_price(String final_price) {
+        this.final_price = final_price;
+    }
 
     public int getId() {
         return id;

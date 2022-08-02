@@ -50,10 +50,13 @@
 
 
         <LinearLayout
+            android:id="@+id/ll_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_5"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dp_2"
+            >
 
             <ImageView
                 android:layout_width="@dimen/_20sdp"
@@ -65,13 +68,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="@dimen/dp_2"
                 android:ellipsize="end"
                 android:fontFamily="@font/gotham_light"
                 android:gravity="center_vertical"
+                android:lineSpacingExtra="@dimen/_5sdp"
                 android:includeFontPadding="false"
                 android:padding="@dimen/dp_5"
-                android:singleLine="true"
                 android:text="512, Gandhi nagar, Bhopal"
                 android:textColor="@color/colorText"
                 android:textSize="@dimen/sp_14" />
@@ -82,7 +84,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_5"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dp_2"
+            >
 
             <ImageView
                 android:layout_width="@dimen/_20sdp"
@@ -94,7 +98,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="@dimen/dp_2"
                 android:ellipsize="end"
                 android:fontFamily="@font/gotham_light"
                 android:gravity="center_vertical"
