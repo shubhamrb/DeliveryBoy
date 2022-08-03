@@ -12,13 +12,17 @@ public class DashboardData {
     @Expose
     private int paddingOrder;
 
-    @SerializedName("rejectOrder")
+    @SerializedName("cancelOrder")
     @Expose
-    private int rejectOrder;
+    private int cancelOrder;
 
     @SerializedName("totalOrder")
     @Expose
     private int totalOrder;
+
+    @SerializedName("wallet_amount")
+    @Expose
+    private String wallet_amount;
 
     public int getCompleteOrder() {
         return completeOrder;
@@ -36,12 +40,12 @@ public class DashboardData {
         this.paddingOrder = paddingOrder;
     }
 
-    public int getRejectOrder() {
-        return rejectOrder;
+    public int getCancelOrder() {
+        return cancelOrder;
     }
 
-    public void setRejectOrder(int rejectOrder) {
-        this.rejectOrder = rejectOrder;
+    public void setCancelOrder(int cancelOrder) {
+        this.cancelOrder = cancelOrder;
     }
 
     public int getTotalOrder() {
@@ -50,5 +54,13 @@ public class DashboardData {
 
     public void setTotalOrder(int totalOrder) {
         this.totalOrder = totalOrder;
+    }
+
+    public String getWallet_amount() {
+        return wallet_amount;
+    }
+
+    public void setWallet_amount(String wallet_amount) {
+        this.wallet_amount = wallet_amount;
     }
 }

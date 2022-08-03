@@ -60,13 +60,23 @@ public class OrdersPresenter extends BasePresenter<OrdersView> {
         });
     }
 
-    public void updateStatus(String token, int order_id, int status) {
+    public void updateStatus(String token, int order_id, int status, String reason, String otp, String amount) {
 
         JSONObject jsonObject = new JSONObject();
 
         try {
             jsonObject.put("orderId", order_id);
             jsonObject.put("status", status);
+            if (reason != null) {
+                jsonObject.put("reject_reason", reason);
+            }
+            if (otp != null) {
+                jsonObject.put("otp", otp);
+            }
+
+            if (amount != null) {
+                jsonObject.put("amount", Integer.parseInt(amount));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

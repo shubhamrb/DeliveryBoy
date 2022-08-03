@@ -1,19 +1,29 @@
 package com.rainbow.deliveryboy.fragments;
 
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.JsonObject;
 import com.rainbow.deliveryboy.R;
 import com.rainbow.deliveryboy.adapter.OrderItemListAdapter;
 import com.rainbow.deliveryboy.base.BaseFragment;
@@ -52,6 +62,10 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailPresenter, Orde
     AppCompatTextView tv_payment;
     @BindView(R.id.navigate)
     FloatingActionButton navigate;
+    @BindView(R.id.buttonCancel)
+    FloatingActionButton buttonCancel;
+    @BindView(R.id.buttonComplete)
+    FloatingActionButton buttonComplete;
 
     private SharedPreferences sharedPreferences;
     private String strToken = "";
@@ -83,7 +97,6 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailPresenter, Orde
         if (bundle != null) {
             ordersData = (OrdersData) bundle.getSerializable("ordersData");
             if (ordersData != null) {
-
                 tv_order.setText("Order #" + ordersData.getId());
                 tv_amount.setText("₹" + ordersData.getFinal_price());
                 tv_address.setText(ordersData.getAddress().getAddress_1());
@@ -102,8 +115,65 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailPresenter, Orde
                     intent.setPackage("com.google.android.apps.maps");
                     startActivity(intent);
                 });
+
+                buttonComplete.setOnClickListener(view -> {
+                    showCompleteOtp(ordersData.getId(), ordersData.getStatus(), ordersData.getFinal_price());
+                });
+
+                buttonCancel.setOnClickListener(view -> {
+                    showCancelReason(ordersData.getId(), ordersData.getStatus());
+                });
             }
         }
+    }
+
+    public void showCancelReason(int order_id, int status) {
+        Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.order_cancel_reason_dialog);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        AppCompatButton buttonSubmit = dialog.findViewById(R.id.buttonSubmit);
+        RadioGroup reason_radio = dialog.findViewById(R.id.reason_radio);
+
+        buttonSubmit.setOnClickListener(v -> {
+            int selectedId = reason_radio.getCheckedRadioButtonId();
+
+            // find the radiobutton by returned id
+            RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
+            presenter.updateStatus(strToken, order_id, status, radioButton.getText().toString(), null, null);
+            dialog.dismiss();
+        });
+        dialog.show();
+    }
+
+
+    public void showCompleteOtp(int order_id, int status, String amount) {
+        Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.order_complete_otp_dialog);
+        AppCompatButton buttonSubmit = dialog.findViewById(R.id.buttonSubmit);
+        AppCompatEditText editTextOtp = dialog.findViewById(R.id.editTextOtp);
+        TextView amountTxt = dialog.findViewById(R.id.amountTxt);
+
+        amountTxt.setText("Collected amount : ₹" + amount);
+        buttonSubmit.setOnClickListener(v -> {
+            String otp = editTextOtp.getText().toString();
+            if (otp.isEmpty()) {
+                Toast.makeText(getActivity(), "Please enter OTP.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (otp.replace(" ", "").length() != 6) {
+                Toast.makeText(getActivity(), "Please enter the valid OTP.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // find the radiobutton by returned id
+            presenter.updateStatus(strToken, order_id, status, null, otp, amount);
+            dialog.dismiss();
+        });
+        dialog.show();
     }
 
     private void loadOrderDetail() {
@@ -137,5 +207,15 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailPresenter, Orde
         recyclerViewItem.setLayoutManager(new LinearLayoutManager(getContext()));
         orderItemListAdapter = new OrderItemListAdapter(getContext(), list);
         recyclerViewItem.setAdapter(orderItemListAdapter);
+    }
+
+    @Override
+    public void statusUpdated(JsonObject jsonObject) {
+        try {
+            showMessage(jsonObject.get("message").getAsString());
+            getActivity().onBackPressed();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

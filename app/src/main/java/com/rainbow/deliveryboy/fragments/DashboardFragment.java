@@ -38,6 +38,9 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter, Dashboar
     @BindView(R.id.text_total)
     AppCompatTextView text_total;
 
+    @BindView(R.id.wallet_amount)
+    AppCompatTextView wallet_amount;
+
     @Override
     protected int createLayout() {
         return R.layout.fragment_dashboard;
@@ -92,8 +95,9 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter, Dashboar
         try {
             text_completed.setText("Completed\n" + dashboardData.getCompleteOrder());
             text_pending.setText("Pending\n" + dashboardData.getPaddingOrder());
-            text_rejected.setText("Rejected\n" + dashboardData.getRejectOrder());
+            text_rejected.setText("Rejected\n" + dashboardData.getCancelOrder());
             text_total.setText("Total\n" + dashboardData.getTotalOrder());
+            wallet_amount.setText("₹" + dashboardData.getWallet_amount());
         } catch (Exception e) {
             e.printStackTrace();
         }
