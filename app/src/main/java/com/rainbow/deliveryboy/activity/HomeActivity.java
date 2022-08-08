@@ -36,7 +36,9 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.rainbow.deliveryboy.R;
 import com.rainbow.deliveryboy.adapter.MenuListAdapter;
+import com.rainbow.deliveryboy.fragments.HomeFragment;
 import com.rainbow.deliveryboy.model.MenuItem;
+import com.rainbow.deliveryboy.notification.NotificationService;
 import com.rainbow.deliveryboy.provider.AppNavigationProvider;
 import com.rainbow.deliveryboy.utils.Constants;
 
@@ -108,10 +110,16 @@ public class HomeActivity extends AppNavigationProvider implements MenuListAdapt
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
+        try {
+            startService(new Intent(this, NotificationService.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         referral_id = getIntent().getStringExtra("referral_id");
 
         if (referral_id != null) {
-            sendReferral();
+//            sendReferral();
         }
 
         fragmentManager = getSupportFragmentManager();
@@ -130,7 +138,7 @@ public class HomeActivity extends AppNavigationProvider implements MenuListAdapt
 //        checkAndRequestPermissions();
 
         menuList.add(new MenuItem(1, getResources().getString(R.string.my_orders), R.drawable.my_ride));
-        menuList.add(new MenuItem(2, "Task Report", R.drawable.wallet));
+//        menuList.add(new MenuItem(2, "Task Report", R.drawable.wallet));
         /*menuList.add(new MenuItem(3, getResources().getString(R.string.my_vehicle), R.drawable.my_vehicle));
         menuList.add(new MenuItem(4, getResources().getString(R.string.my_chat), R.drawable.chats));
         menuList.add(new MenuItem(5, "Refer & Earn", R.drawable.refer));
@@ -254,9 +262,9 @@ public class HomeActivity extends AppNavigationProvider implements MenuListAdapt
     public void openDrawer() {
         textViewName.setText(sharedPreferences.getString(Constants.NAME, "Name"));
         textViewNumber.setText(sharedPreferences.getString(Constants.EMAIL, "abc@gmail.com"));
-        if (!sharedPreferences.getString(Constants.IMAGE,"").isEmpty()){
+        if (!sharedPreferences.getString(Constants.IMAGE, "").isEmpty()) {
             Glide.with(this).load(sharedPreferences.getString(Constants.IMAGE, "https://toppng.com/uploads/preview/person-png-11553989513mzkt4ocbrv.png")).into(imageViewConactImage);
-        }else {
+        } else {
             Glide.with(this).load("https://toppng.com/uploads/preview/person-png-11553989513mzkt4ocbrv.png").into(imageViewConactImage);
         }
         drawerLayout.openDrawer(Gravity.LEFT);
@@ -291,10 +299,16 @@ public class HomeActivity extends AppNavigationProvider implements MenuListAdapt
             drawerLayout.closeDrawer(Gravity.LEFT);
         }
         if (s == 1) {
+            HomeFragment fragment = (HomeFragment) fragmentManager.findFragmentByTag(HomeFragment.class.getName());
+            if (fragment != null) {
+                fragment.switchTab();
+            }
         } else if (s == 8) {
             final AlertDialog.Builder newBuilder = new AlertDialog.Builder(this);
             newBuilder.setMessage("Are you sure you want to Logout?");
             newBuilder.setPositiveButton("Yes", (dialog, which) -> {
+                stopService(new Intent(this, NotificationService.class));
+
                 sharedPreferences.edit().putBoolean(Constants.IS_LOGIN, false).apply();
                 sharedPreferences.edit().clear().apply();
                 Intent intent = new Intent(HomeActivity.this, AuthActivity.class);

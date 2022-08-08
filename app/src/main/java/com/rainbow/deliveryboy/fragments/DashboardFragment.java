@@ -41,6 +41,10 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter, Dashboar
     @BindView(R.id.wallet_amount)
     AppCompatTextView wallet_amount;
 
+    @BindView(R.id.btn_request)
+    AppCompatTextView btn_request;
+    private DashboardData data;
+
     @Override
     protected int createLayout() {
         return R.layout.fragment_dashboard;
@@ -84,15 +88,19 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter, Dashboar
         super.onResume();
     }
 
-    @OnClick({})
+    @OnClick({R.id.btn_request})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.btn_request:
+                presenter.requestAmountSubmit(strToken,data.getWallet_amount(),data.getStore_id());
+                break;
         }
     }
 
     @Override
     public void setDashboardData(DashboardData dashboardData) {
         try {
+            data = dashboardData;
             text_completed.setText("Completed\n" + dashboardData.getCompleteOrder());
             text_pending.setText("Pending\n" + dashboardData.getPaddingOrder());
             text_rejected.setText("Rejected\n" + dashboardData.getCancelOrder());

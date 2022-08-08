@@ -73,9 +73,8 @@ public class OrdersPresenter extends BasePresenter<OrdersView> {
             if (otp != null) {
                 jsonObject.put("otp", otp);
             }
-
             if (amount != null) {
-                jsonObject.put("amount", Integer.parseInt(amount));
+                jsonObject.put("amount", Double.parseDouble(amount));
             }
         } catch (JSONException e) {
             e.printStackTrace();

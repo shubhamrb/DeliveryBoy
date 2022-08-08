@@ -20,9 +20,21 @@ public class DashboardData {
     @Expose
     private int totalOrder;
 
+    @SerializedName("store_id")
+    @Expose
+    private int store_id;
+
     @SerializedName("wallet_amount")
     @Expose
     private String wallet_amount;
+
+    public int getStore_id() {
+        return store_id;
+    }
+
+    public void setStore_id(int store_id) {
+        this.store_id = store_id;
+    }
 
     public int getCompleteOrder() {
         return completeOrder;

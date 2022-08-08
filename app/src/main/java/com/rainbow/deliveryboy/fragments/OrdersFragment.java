@@ -136,15 +136,15 @@ public class OrdersFragment extends BaseFragment<OrdersPresenter, OrdersView> im
     }
 
     @Override
-    public void onClickButton(OrdersData ordersData) {
-        if (ordersData.getStatus() == 7) {
+    public void onClickButton(OrdersData ordersData, int status) {
+        if (status == 7) {
             /*cancel*/
-            showCancelReason(ordersData.getId(), ordersData.getStatus());
-        } else if (ordersData.getStatus() == 8) {
+            showCancelReason(ordersData.getId(), status);
+        } else if (status == 8) {
             /*complete*/
-            showCompleteOtp(ordersData.getId(), ordersData.getStatus(), ordersData.getFinal_price());
+            showCompleteOtp(ordersData.getId(), status, ordersData.getFinal_price());
         } else {
-            presenter.updateStatus(strToken, ordersData.getId(), ordersData.getStatus(), null, null, null);
+            presenter.updateStatus(strToken, ordersData.getId(), status, null, null, null);
         }
     }
 
@@ -177,6 +177,7 @@ public class OrdersFragment extends BaseFragment<OrdersPresenter, OrdersView> im
         AppCompatButton buttonSubmit = dialog.findViewById(R.id.buttonSubmit);
         AppCompatEditText editTextOtp = dialog.findViewById(R.id.editTextOtp);
         TextView amountTxt = dialog.findViewById(R.id.amountTxt);
+        RadioButton radio = dialog.findViewById(R.id.radio);
 
         amountTxt.setText("Collected amount : ₹" + amount);
         buttonSubmit.setOnClickListener(v -> {
@@ -188,6 +189,10 @@ public class OrdersFragment extends BaseFragment<OrdersPresenter, OrdersView> im
 
             if (otp.replace(" ", "").length() != 6) {
                 Toast.makeText(getActivity(), "Please enter the valid OTP.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!radio.isChecked()) {
+                Toast.makeText(getActivity(), "Please confirm that you have collected the amount.", Toast.LENGTH_SHORT).show();
                 return;
             }
 

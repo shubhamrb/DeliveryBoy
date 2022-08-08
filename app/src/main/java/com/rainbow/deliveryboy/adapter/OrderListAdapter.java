@@ -123,13 +123,13 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         }
 
         holder.btn_accept.setOnClickListener(view -> {
-            listener.onClickButton(ordersData);
+            listener.onClickButton(ordersData,2);
         });
         holder.btn_reject.setOnClickListener(view -> {
-            listener.onClickButton(ordersData);
+            listener.onClickButton(ordersData,7);
         });
         holder.btn_complete.setOnClickListener(view -> {
-            listener.onClickButton(ordersData);
+            listener.onClickButton(ordersData,8);
         });
 
         holder.itemView.setOnClickListener(view -> {
@@ -140,7 +140,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     }
 
     public interface onClickListener {
-        void onClickButton(OrdersData ordersData);
+        void onClickButton(OrdersData ordersData,int status);
 
         void onClickItem(OrdersData ordersData);
     }

@@ -19,6 +19,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.rainbow.deliveryboy.R;
 import com.rainbow.deliveryboy.activity.HomeActivity;
 import com.rainbow.deliveryboy.base.BaseFragment;
@@ -27,6 +28,9 @@ import com.rainbow.deliveryboy.model.verifyOtp.VerifyOtpResponse;
 import com.rainbow.deliveryboy.presenter.OtpPresenter;
 import com.rainbow.deliveryboy.utils.Constants;
 import com.rainbow.deliveryboy.views.OtpView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -262,7 +266,11 @@ public class OTpFragment extends BaseFragment<OtpPresenter, OtpView> implements 
             Toast.makeText(getActivity(), "Please enter valid OTP.", Toast.LENGTH_LONG).show();
             return;
         }
-        presenter.verifyOtp(otp, mobileNo);
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(token -> {
+            if (token != null && token.length() != 0) {
+                presenter.verifyOtp(otp, mobileNo,token);
+            }
+        });
     }
 
 }

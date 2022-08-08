@@ -115,12 +115,16 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeView> implemen
         super.onPause();
     }
 
+    public void switchTab() {
+        viewpagermyride.setCurrentItem(1);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
     }
 
-    @OnClick({R.id.imageViewHome, R.id.imageViewNotification,R.id.layoutupcoming,R.id.layoutcompleted})
+    @OnClick({R.id.imageViewHome, R.id.imageViewNotification, R.id.layoutupcoming, R.id.layoutcompleted})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imageViewHome:

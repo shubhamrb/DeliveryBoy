@@ -20,9 +20,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     FragmentTransaction fragmentTransaction;
     public static boolean isActivityStatus;
 
-
-
-
     public abstract int getPlaceHolder();
 
     public enum PerformFragment {ADD, REPLACE}

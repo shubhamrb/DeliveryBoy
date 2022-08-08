@@ -63,9 +63,9 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailPresenter, Orde
     @BindView(R.id.navigate)
     FloatingActionButton navigate;
     @BindView(R.id.buttonCancel)
-    FloatingActionButton buttonCancel;
+    AppCompatButton buttonCancel;
     @BindView(R.id.buttonComplete)
-    FloatingActionButton buttonComplete;
+    AppCompatButton buttonComplete;
 
     private SharedPreferences sharedPreferences;
     private String strToken = "";
@@ -155,8 +155,9 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailPresenter, Orde
         AppCompatButton buttonSubmit = dialog.findViewById(R.id.buttonSubmit);
         AppCompatEditText editTextOtp = dialog.findViewById(R.id.editTextOtp);
         TextView amountTxt = dialog.findViewById(R.id.amountTxt);
+        RadioButton radio = dialog.findViewById(R.id.radio);
 
-        amountTxt.setText("Collected amount : ₹" + amount);
+        amountTxt.setText("₹" + amount);
         buttonSubmit.setOnClickListener(v -> {
             String otp = editTextOtp.getText().toString();
             if (otp.isEmpty()) {
@@ -166,6 +167,10 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailPresenter, Orde
 
             if (otp.replace(" ", "").length() != 6) {
                 Toast.makeText(getActivity(), "Please enter the valid OTP.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!radio.isChecked()) {
+                Toast.makeText(getActivity(), "Please confirm that you have collected the amount.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -214,7 +219,7 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailPresenter, Orde
         try {
             showMessage(jsonObject.get("message").getAsString());
             getActivity().onBackPressed();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

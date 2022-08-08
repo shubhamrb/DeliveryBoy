@@ -4,7 +4,6 @@ import com.rainbow.deliveryboy.api.ApiService;
 import com.rainbow.deliveryboy.api.RetroClient;
 import com.rainbow.deliveryboy.base.BaseActivity;
 import com.rainbow.deliveryboy.base.BasePresenter;
-import com.rainbow.deliveryboy.model.resendOtp.ResendOtpResponse;
 import com.rainbow.deliveryboy.model.sendotp.SendOtpResponse;
 import com.rainbow.deliveryboy.model.verifyOtp.VerifyOtpResponse;
 import com.rainbow.deliveryboy.utils.Constants;
@@ -39,16 +38,17 @@ public class OtpPresenter extends BasePresenter<OtpView> {
         navigator.openLoginFragment(BaseActivity.PerformFragment.REPLACE, referral_id);
     }
 
-    public void verifyOtp(String otp, String mobile) {
+    public void verifyOtp(String otp, String mobile, String token) {
         view.showLoader();
         ApiService api = RetroClient.getApiService();
 
-        JSONObject jsonObject=new JSONObject();
+        JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("otp",otp);
-            jsonObject.put("mobileNumber",mobile);
-            jsonObject.put("type",Constants.TYPE);
-            jsonObject.put("device_type",Constants.DEVICE_TYPE);
+            jsonObject.put("otp", otp);
+            jsonObject.put("mobileNumber", mobile);
+            jsonObject.put("type", Constants.TYPE);
+            jsonObject.put("device_type", Constants.DEVICE_TYPE);
+            jsonObject.put("device_token", token);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -87,9 +87,9 @@ public class OtpPresenter extends BasePresenter<OtpView> {
         view.showLoader();
         ApiService api = RetroClient.getApiService();
 
-        JSONObject jsonObject =new JSONObject();
+        JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("mobileNumber",mobile);
+            jsonObject.put("mobileNumber", mobile);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -45,6 +45,10 @@ public interface ApiService {
     Call<DashboardData> getDashboardData(@Url String fullUrl, @Header("Authorization") String accessToken);
 
     @Headers("Content-Type: application/json")
+    @POST
+    Call<JsonObject> requestAmountSubmit(@Url String fullUrl, @Header("Authorization") String accessToken, @Body String body);
+
+    @Headers("Content-Type: application/json")
     @POST("deliveryboy/updatestatus")
     Call<JsonObject> updateStatus(@Header("Authorization") String accessToken, @Body String body);
 
