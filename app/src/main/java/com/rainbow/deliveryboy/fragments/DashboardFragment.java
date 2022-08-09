@@ -92,7 +92,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter, Dashboar
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_request:
-                presenter.requestAmountSubmit(strToken,data.getWallet_amount(),data.getStore_id());
+                presenter.requestAmountSubmit(strToken,data.getWallet_amount(),data.getStoreId());
                 break;
         }
     }

@@ -60,7 +60,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             e.printStackTrace();
         }*/
 
-        int status = ordersData.getStatus();
+        int status = ordersData.getAssign_status();
 
         holder.tv_status.setVisibility(View.GONE);
         holder.btn_accept.setVisibility(View.GONE);
@@ -69,67 +69,40 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         holder.ll_address.setVisibility(View.VISIBLE);
 
         switch (status) {
-            case 1:
-                holder.ll_address.setVisibility(View.GONE);
-                holder.btn_complete.setVisibility(View.GONE);
-                holder.tv_status.setVisibility(View.VISIBLE);
-                holder.tv_status.setText("Pending");
-                holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorDeepOrange));
+            case 0:
+                if (ordersData.getStatus() == 8) {
+                    holder.btn_complete.setVisibility(View.GONE);
+                    holder.tv_status.setVisibility(View.VISIBLE);
+                    holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorPurple));
+                    holder.tv_status.setText("Delivered");
+                } else {
+                    holder.btn_complete.setVisibility(View.GONE);
+                    holder.btn_accept.setVisibility(View.VISIBLE);
+                    holder.btn_reject.setVisibility(View.VISIBLE);
+                }
                 break;
-            case 2:
+            case 1:
                 holder.tv_status.setVisibility(View.VISIBLE);
                 holder.tv_status.setText("Accepted");
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGreen));
                 break;
-            case 3:
-                holder.ll_address.setVisibility(View.GONE);
-                holder.btn_complete.setVisibility(View.GONE);
-                holder.tv_status.setVisibility(View.VISIBLE);
-                holder.tv_status.setText("Preparing");
-                holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorBlack));
-
-                break;
-            case 4:
-                holder.btn_complete.setVisibility(View.GONE);
-                holder.btn_accept.setVisibility(View.VISIBLE);
-                holder.btn_reject.setVisibility(View.VISIBLE);
-                break;
-            case 5:
-                holder.tv_status.setVisibility(View.VISIBLE);
-                holder.tv_status.setText("On the way");
-                holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorBlack));
-                break;
-            case 6:
-                holder.ll_address.setVisibility(View.GONE);
-                holder.btn_complete.setVisibility(View.GONE);
-                holder.tv_status.setVisibility(View.VISIBLE);
-                holder.tv_status.setText("On hold");
-                holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorRed));
-                break;
-            case 7:
+            case 2:
                 holder.ll_address.setVisibility(View.GONE);
                 holder.btn_complete.setVisibility(View.GONE);
                 holder.tv_status.setVisibility(View.VISIBLE);
                 holder.tv_status.setText("Canceled");
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorRed));
-
-                break;
-            case 8:
-                holder.btn_complete.setVisibility(View.GONE);
-                holder.tv_status.setVisibility(View.VISIBLE);
-                holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorPurple));
-                holder.tv_status.setText("Delivered");
                 break;
         }
 
         holder.btn_accept.setOnClickListener(view -> {
-            listener.onClickButton(ordersData,2);
+            listener.onClickButton(ordersData, 2);
         });
         holder.btn_reject.setOnClickListener(view -> {
-            listener.onClickButton(ordersData,7);
+            listener.onClickButton(ordersData, 7);
         });
         holder.btn_complete.setOnClickListener(view -> {
-            listener.onClickButton(ordersData,8);
+            listener.onClickButton(ordersData, 8);
         });
 
         holder.itemView.setOnClickListener(view -> {
@@ -140,7 +113,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     }
 
     public interface onClickListener {
-        void onClickButton(OrdersData ordersData,int status);
+        void onClickButton(OrdersData ordersData, int status);
 
         void onClickItem(OrdersData ordersData);
     }

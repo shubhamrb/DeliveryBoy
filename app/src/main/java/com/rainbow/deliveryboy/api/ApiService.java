@@ -59,13 +59,5 @@ public interface ApiService {
                                                    @Field("token") String token);
 
 //    api_key:070b92d28adc166b3a6c63c2d44535d2f62a3e24
-//    client:android
-//    token:NRy4MvEaDj5O04r8S6GGSZAJ7T5tv1QvS969rtgyYe7qdyKv8q6wjWBozH5I
-//    request_id:57
-//    code:0100
-//    lat:91.5656252
-//    long:75.0002356
-
-    //X14ybrF0H7tjrwG5w0DMZIs2Two5EiYx73LGmLMF0nt39zLVfEne1NuOhZF9
-
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluOUBnbWFpbC5jb20iLCJpZCI6MTU4LCJpYXQiOjE2NTk2MzQzNDR9.Y_85xLz605eLmP0rUqwf0jGV50jhe-V2a3-Odrl_Gmc
 }

@@ -14,6 +14,10 @@ public class OrdersData implements Serializable {
     @Expose
     private int status;
 
+    @SerializedName("assign_status")
+    @Expose
+    private int assign_status;
+
     @SerializedName("order_date")
     @Expose
     private String order_date;
@@ -29,6 +33,14 @@ public class OrdersData implements Serializable {
     @SerializedName("address")
     @Expose
     private AddressData address;
+
+    public int getAssign_status() {
+        return assign_status;
+    }
+
+    public void setAssign_status(int assign_status) {
+        this.assign_status = assign_status;
+    }
 
     public String getPayment_channel() {
         return payment_channel;

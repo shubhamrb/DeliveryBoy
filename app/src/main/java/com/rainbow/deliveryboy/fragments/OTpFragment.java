@@ -29,9 +29,6 @@ import com.rainbow.deliveryboy.presenter.OtpPresenter;
 import com.rainbow.deliveryboy.utils.Constants;
 import com.rainbow.deliveryboy.views.OtpView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -106,14 +103,14 @@ public class OTpFragment extends BaseFragment<OtpPresenter, OtpView> implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    editTextSecondsDigits.requestFocus();
-                }
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                if (s.length() > 0) {
+                    editTextSecondsDigits.requestFocus();
+                }
             }
         });
         editTextSecondsDigits.addTextChangedListener(new TextWatcher() {
@@ -125,17 +122,15 @@ public class OTpFragment extends BaseFragment<OtpPresenter, OtpView> implements 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
                 if (s.length() > 0) {
                     editTextThirdDigits.requestFocus();
                 } else {
                     editTextFirstDigits.requestFocus();
                 }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
         editTextThirdDigits.addTextChangedListener(new TextWatcher() {
@@ -146,17 +141,16 @@ public class OTpFragment extends BaseFragment<OtpPresenter, OtpView> implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    editTextFourthDigits.requestFocus();
-                } else {
-                    editTextSecondsDigits.requestFocus();
-                }
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                if (s.length() > 0) {
+                    editTextFourthDigits.requestFocus();
+                } else {
+                    editTextSecondsDigits.requestFocus();
+                }
             }
         });
         editTextFourthDigits.addTextChangedListener(new TextWatcher() {
@@ -168,17 +162,15 @@ public class OTpFragment extends BaseFragment<OtpPresenter, OtpView> implements 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
                 if (s.length() > 0) {
                     editTextFive.requestFocus();
                 } else {
                     editTextThirdDigits.requestFocus();
                 }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
 
@@ -186,6 +178,7 @@ public class OTpFragment extends BaseFragment<OtpPresenter, OtpView> implements 
             try {
                 otp = editTextFirstDigits.getText().toString() + editTextSecondsDigits.getText().toString()
                         + editTextThirdDigits.getText().toString() + editTextFourthDigits.getText().toString();
+
                 doVerifyCode();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -268,7 +261,7 @@ public class OTpFragment extends BaseFragment<OtpPresenter, OtpView> implements 
         }
         FirebaseMessaging.getInstance().getToken().addOnSuccessListener(token -> {
             if (token != null && token.length() != 0) {
-                presenter.verifyOtp(otp, mobileNo,token);
+                presenter.verifyOtp(otp, mobileNo, token);
             }
         });
     }

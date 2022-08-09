@@ -20,20 +20,20 @@ public class DashboardData {
     @Expose
     private int totalOrder;
 
-    @SerializedName("store_id")
+    @SerializedName("storeId")
     @Expose
-    private int store_id;
+    private int storeId;
 
     @SerializedName("wallet_amount")
     @Expose
     private String wallet_amount;
 
-    public int getStore_id() {
-        return store_id;
+    public int getStoreId() {
+        return storeId;
     }
 
-    public void setStore_id(int store_id) {
-        this.store_id = store_id;
+    public void setStoreId(int storeId) {
+        this.storeId = storeId;
     }
 
     public int getCompleteOrder() {
