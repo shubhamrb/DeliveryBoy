@@ -20,8 +20,6 @@ import butterknife.ButterKnife;
 
 
 public class NotificationListAdapter extends RecyclerView.Adapter<NotificationListAdapter.ViewHolder> {
-
-
     private Context context;
     List<NotificationData> notificationList;
 
@@ -32,7 +30,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
 
     @Override
     public int getItemCount() {
-        return 10;
+        return notificationList.size();
     }
 
     @Override
@@ -57,6 +55,11 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
             e.printStackTrace();
         }*/
 
+    }
+
+    public void setList(List<NotificationData> list) {
+        this.notificationList = list;
+        notifyDataSetChanged();
     }
 
 

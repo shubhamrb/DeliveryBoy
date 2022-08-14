@@ -17,6 +17,7 @@ import com.rainbow.deliveryboy.base.BaseFragment;
 import com.rainbow.deliveryboy.model.getNotification.NotificationData;
 import com.rainbow.deliveryboy.presenter.NotificationPresenter;
 import com.rainbow.deliveryboy.utils.Constants;
+import com.rainbow.deliveryboy.utils.LoadMore;
 import com.rainbow.deliveryboy.views.NotificationView;
 
 import java.util.ArrayList;
@@ -42,6 +43,14 @@ public class NotificationFragment extends BaseFragment<NotificationPresenter, No
     @BindView(R.id.recyclerViewNotification)
     RecyclerView recyclerViewNotification;
 
+    private final int PAGE_LIMIT = 10;
+    private int CURRENT_PAGE = 0;
+    private LoadMore mLoadMore;
+    private boolean isLoadMore = false;
+    private NotificationListAdapter adapter;
+    List<NotificationData> list;
+    private String strToken = "";
+
     @Override
     protected int createLayout() {
         return R.layout.fragment_notification;
@@ -62,8 +71,28 @@ public class NotificationFragment extends BaseFragment<NotificationPresenter, No
     protected void bindData() {
         sharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         toolBarTitle.setText("Notification");
-//        presenter.getAllNotification(sharedPreferences.getString(Constants.TOKEN, ""));
-        setNotificationData(new ArrayList<>());
+        strToken = sharedPreferences.getString(Constants.TOKEN, "");
+
+
+        list = new ArrayList<>();
+        mLoadMore = new LoadMore(recyclerViewNotification);
+        mLoadMore.setLoadingMore(false);
+        recyclerViewNotification.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new NotificationListAdapter(getContext(), list);
+        recyclerViewNotification.setAdapter(adapter);
+
+        mLoadMore.setOnLoadMoreListener(() -> {
+            if (isLoadMore) {
+                CURRENT_PAGE++;
+                loadNotifications();
+            }
+        });
+
+        loadNotifications();
+    }
+
+    private void loadNotifications() {
+        presenter.getAllNotification(strToken,CURRENT_PAGE,PAGE_LIMIT);
     }
 
 
@@ -74,8 +103,15 @@ public class NotificationFragment extends BaseFragment<NotificationPresenter, No
 
     @Override
     public void setNotificationData(List<NotificationData> notificationData) {
-        recyclerViewNotification.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerViewNotification.setAdapter(new NotificationListAdapter(getContext(), notificationData));
-
+        if (CURRENT_PAGE == 0) {
+            list.clear();
+        }
+        if (notificationData.size() > 0) {
+            list.addAll(notificationData);
+            mLoadMore.setLoadingMore(true);
+            adapter.setList(list);
+        } else {
+            mLoadMore.setLoadingMore(false);
+        }
     }
 }

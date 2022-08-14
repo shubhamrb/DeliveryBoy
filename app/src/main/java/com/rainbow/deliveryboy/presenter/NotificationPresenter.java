@@ -3,9 +3,10 @@ package com.rainbow.deliveryboy.presenter;
 import com.rainbow.deliveryboy.api.ApiService;
 import com.rainbow.deliveryboy.api.RetroClient;
 import com.rainbow.deliveryboy.base.BasePresenter;
-import com.rainbow.deliveryboy.model.getNotification.ResponseNotification;
-import com.rainbow.deliveryboy.utils.Constants;
+import com.rainbow.deliveryboy.model.getNotification.NotificationData;
 import com.rainbow.deliveryboy.views.NotificationView;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,31 +30,25 @@ public class NotificationPresenter extends BasePresenter<NotificationView> {
 
     }
 
-    public void getAllNotification(String token) {
+    public void getAllNotification(String token, int current_page, int pagelimit) {
         view.showLoader();
         ApiService api = RetroClient.getApiService();
-        Call<ResponseNotification> call = api.getNotificationList(Constants.API_KEY, Constants.DEVICE_TYPE, token);
-        call.enqueue(new Callback<ResponseNotification>() {
+        Call<List<NotificationData>> call = api.getNotificationList("deliveryboy/notificationlist/" + current_page + "/" + pagelimit, token);
+        call.enqueue(new Callback<List<NotificationData>>() {
             @Override
-            public void onResponse(Call<ResponseNotification> call, Response<ResponseNotification> response) {
+            public void onResponse(Call<List<NotificationData>> call, Response<List<NotificationData>> response) {
                 view.hideLoader();
                 if (response.body() != null) {
                     if (response.code() == 200) {
-                        if (response.body().getData() != null) {
-                            view.setNotificationData(response.body().getData());
-                        } else {
-                            view.showMessage(response.body().getMessage());
-                        }
-
+                        view.setNotificationData(response.body());
                     } else {
-                        view.showMessage(response.body().getMessage());
+                        view.showMessage("Something went wrong.");
                     }
                 }
             }
 
-
             @Override
-            public void onFailure(Call<ResponseNotification> call, Throwable throwable) {
+            public void onFailure(Call<List<NotificationData>> call, Throwable throwable) {
                 view.hideLoader();
                 view.showMessage(throwable.getMessage());
             }
