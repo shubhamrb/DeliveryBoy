@@ -6,13 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rainbow.deliveryboy.R;
 import com.rainbow.deliveryboy.model.getNotification.NotificationData;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -42,19 +42,19 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        /*NotificationData notificationData = notificationList.get(position);
-        holder.tvTitle.setText(notificationData.getTitle());
-        holder.tvNotificationText.setText(notificationData.getDescription());
-        holder.tvNotificationTime.setText(notificationData.getCreatedAt());
-
+        NotificationData notificationData = notificationList.get(position);
+        holder.tvTitle.setText(notificationData.getNoti_type());
+        holder.tvNotificationText.setText(notificationData.getMessage());
+        String[] arry = notificationData.getCreatedAt().split("T");
+        String date = arry[0];
+        String time = arry[1];
+//        2022-08-14T12:21:49.000Z
         try {
-            Glide.with(context).load(notificationData.getImage())
-                    .error(R.drawable.logo_icon)
-                    .placeholder(R.drawable.logo_icon).into(holder.imageIcon);
+            holder.tvNotificationTime.setText(MessageFormat.format("{0} {1}", date, time.substring(0, 8)));
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
-
+            holder.tvNotificationTime.setText("");
+        }
     }
 
     public void setList(List<NotificationData> list) {
@@ -64,8 +64,6 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
 
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.image_icon)
-        AppCompatImageView imageIcon;
         @BindView(R.id.tv_notification_text)
         AppCompatTextView tvNotificationText;
         @BindView(R.id.tv_notification_title)

@@ -6,50 +6,66 @@ import com.google.gson.annotations.SerializedName;
 public class NotificationData {
     @SerializedName("id")
     @Expose
-    private Integer id;
-    @SerializedName("image")
+    private int id;
+
+    @SerializedName("status")
     @Expose
-    private String image;
-    @SerializedName("title")
+    private boolean status;
+
+    @SerializedName("is_read")
     @Expose
-    private String title;
-    @SerializedName("description")
+    private boolean is_read;
+
+    @SerializedName("noti_type")
     @Expose
-    private String description;
-    @SerializedName("created_at")
+    private String noti_type;
+
+    @SerializedName("message")
+    @Expose
+    private String message;
+
+    @SerializedName("createdAt")
     @Expose
     private String createdAt;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getImage() {
-        return image;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
-    public String getTitle() {
-        return title;
+    public boolean isIs_read() {
+        return is_read;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setIs_read(boolean is_read) {
+        this.is_read = is_read;
     }
 
-    public String getDescription() {
-        return description;
+    public String getNoti_type() {
+        return noti_type;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setNoti_type(String noti_type) {
+        this.noti_type = noti_type;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getCreatedAt() {
@@ -59,5 +75,4 @@ public class NotificationData {
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
-
 }
