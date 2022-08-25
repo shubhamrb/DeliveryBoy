@@ -24,7 +24,7 @@ public class RetroClient {
      * ***** URLS *****
      */
 //    private static final String ROOT_URL = "https://mamits.org:3001/";
-        private static final String ROOT_URL = "https://rainbowfresh.in/";
+        private static final String ROOT_URL = "https://rainbowfresh.in:3001/";
     /**
      * Get Retrofit Instance
      */
