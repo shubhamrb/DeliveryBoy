@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -117,7 +118,7 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailPresenter, Orde
                 });
 
                 buttonComplete.setOnClickListener(view -> {
-                    showCompleteOtp(ordersData.getId(), ordersData.getStatus(), ordersData.getFinal_price());
+                    showCompleteOtp(ordersData.getId(), ordersData.getStatus(), ordersData.getFinal_price(), ordersData.getOtp());
                 });
 
                 buttonCancel.setOnClickListener(view -> {
@@ -148,24 +149,36 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailPresenter, Orde
     }
 
 
-    public void showCompleteOtp(int order_id, int status, String amount) {
+    public void showCompleteOtp(int order_id, int status, String amount, String strotp) {
+        boolean otpRequired = strotp != null && !strotp.isEmpty();
+
         Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.order_complete_otp_dialog);
         AppCompatButton buttonSubmit = dialog.findViewById(R.id.buttonSubmit);
         AppCompatEditText editTextOtp = dialog.findViewById(R.id.editTextOtp);
+        TextView titleTxt = dialog.findViewById(R.id.titleTxt);
+        LinearLayout otpLayout = dialog.findViewById(R.id.otpLayout);
         TextView amountTxt = dialog.findViewById(R.id.amountTxt);
         RadioButton radio = dialog.findViewById(R.id.radio);
+
+        if (otpRequired) {
+            titleTxt.setVisibility(View.VISIBLE);
+            otpLayout.setVisibility(View.VISIBLE);
+        } else {
+            titleTxt.setVisibility(View.GONE);
+            otpLayout.setVisibility(View.GONE);
+        }
 
         amountTxt.setText("₹" + amount);
         buttonSubmit.setOnClickListener(v -> {
             String otp = editTextOtp.getText().toString();
-            if (otp.isEmpty()) {
+            if (otpRequired && otp.isEmpty()) {
                 Toast.makeText(getActivity(), "Please enter OTP.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if (otp.replace(" ", "").length() != 6) {
+            if (otpRequired && otp.replace(" ", "").length() != 6) {
                 Toast.makeText(getActivity(), "Please enter the valid OTP.", Toast.LENGTH_SHORT).show();
                 return;
             }

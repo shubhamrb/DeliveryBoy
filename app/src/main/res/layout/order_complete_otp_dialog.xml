@@ -12,10 +12,11 @@
         android:text="Enter OTP"
         android:textColor="@color/colorBlack"
         android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone"/>
 
     <LinearLayout
-        android:id="@+id/layoutName"
+        android:id="@+id/otpLayout"
         android:layout_width="match_parent"
         android:layout_height="50sp"
         android:layout_gravity="center"
@@ -26,6 +27,7 @@
         android:background="@drawable/current_location_et_bg"
         android:inputType="textCapSentences"
         android:orientation="horizontal"
+        android:visibility="gone"
         android:padding="2sp">
 
         <androidx.appcompat.widget.AppCompatEditText

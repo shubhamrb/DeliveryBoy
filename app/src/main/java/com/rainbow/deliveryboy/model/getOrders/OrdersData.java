@@ -30,9 +30,21 @@ public class OrdersData implements Serializable {
     @Expose
     private String payment_channel;
 
+    @SerializedName("otp")
+    @Expose
+    private String otp;
+
     @SerializedName("address")
     @Expose
     private AddressData address;
+
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
+    }
 
     public int getAssign_status() {
         return assign_status;
