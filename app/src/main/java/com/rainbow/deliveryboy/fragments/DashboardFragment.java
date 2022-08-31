@@ -1,14 +1,19 @@
 package com.rainbow.deliveryboy.fragments;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.rainbow.deliveryboy.R;
+import com.rainbow.deliveryboy.activity.HomeActivity;
 import com.rainbow.deliveryboy.base.BaseFragment;
 import com.rainbow.deliveryboy.model.dashboard.DashboardData;
 import com.rainbow.deliveryboy.presenter.DashboardPresenter;
@@ -45,6 +50,9 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter, Dashboar
     AppCompatTextView btn_request;
     private DashboardData data;
 
+    @BindView(R.id.pullToRefresh)
+    SwipeRefreshLayout pullToRefresh;
+
     @Override
     protected int createLayout() {
         return R.layout.fragment_dashboard;
@@ -65,8 +73,12 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter, Dashboar
     protected void bindData() {
         sharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         strToken = sharedPreferences.getString(Constants.TOKEN, "");
-
+        pullToRefresh.setOnRefreshListener(() -> {
+            getDashboardData();
+            pullToRefresh.setRefreshing(false);
+        });
         getDashboardData();
+
     }
 
     private void getDashboardData() {
@@ -92,7 +104,8 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter, Dashboar
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_request:
-                presenter.requestAmountSubmit(strToken,data.getWallet_amount(),data.getStoreId());
+                if (Double.parseDouble(data.getWallet_amount()) > 0)
+                    presenter.requestAmountSubmit(strToken, data.getWallet_amount(), data.getStoreId());
                 break;
         }
     }
@@ -106,6 +119,17 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter, Dashboar
             text_rejected.setText("Rejected\n" + dashboardData.getCancelOrder());
             text_total.setText("Total\n" + dashboardData.getTotalOrder());
             wallet_amount.setText("₹" + dashboardData.getWallet_amount());
+
+            try {
+                int TAB = sharedPreferences.getInt(Constants.TAB, 0);
+                if (TAB == 1) {
+                    Activity activity = getActivity();
+                    HomeActivity homeActivity= (HomeActivity) activity;
+                    homeActivity.switchTabs();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

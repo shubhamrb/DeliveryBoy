@@ -18,6 +18,10 @@ public class OrdersData implements Serializable {
     @Expose
     private int assign_status;
 
+    @SerializedName("orderId")
+    @Expose
+    private String orderId;
+
     @SerializedName("order_date")
     @Expose
     private String order_date;
@@ -30,6 +34,10 @@ public class OrdersData implements Serializable {
     @Expose
     private String payment_channel;
 
+    @SerializedName("payment_status")
+    @Expose
+    private String payment_status;
+
     @SerializedName("otp")
     @Expose
     private String otp;
@@ -38,8 +46,25 @@ public class OrdersData implements Serializable {
     @Expose
     private AddressData address;
 
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
     public String getOtp() {
         return otp;
+    }
+
+    public String getPayment_status() {
+        return payment_status;
+    }
+
+    public void setPayment_status(String payment_status) {
+        this.payment_status = payment_status;
     }
 
     public void setOtp(String otp) {

@@ -22,10 +22,12 @@ import butterknife.ButterKnife;
 public class NotificationListAdapter extends RecyclerView.Adapter<NotificationListAdapter.ViewHolder> {
     private Context context;
     List<NotificationData> notificationList;
+    private onClickListener listener;
 
-    public NotificationListAdapter(Context context, List<NotificationData> dataList) {
+    public NotificationListAdapter(Context context, List<NotificationData> dataList, onClickListener listener) {
         this.context = context;
         this.notificationList = dataList;
+        this.listener = listener;
     }
 
     @Override
@@ -55,6 +57,14 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
             e.printStackTrace();
             holder.tvNotificationTime.setText("");
         }
+
+        holder.itemView.setOnClickListener(view -> {
+            listener.onClick();
+        });
+    }
+
+    public interface onClickListener {
+        void onClick();
     }
 
     public void setList(List<NotificationData> list) {

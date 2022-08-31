@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.AppCompatImageView;
@@ -48,6 +49,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         OrdersData ordersData = list.get(position);
+        holder.tv_id.setText("#"+ordersData.getOrderId());
         holder.tv_title.setText(ordersData.getAddress().getName());
         holder.tv_address.setText(ordersData.getAddress().getAddress_1());
         holder.tv_date.setText(ordersData.getOrder_date().split("T")[0]);
@@ -60,35 +62,43 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             e.printStackTrace();
         }*/
 
-        int status = ordersData.getAssign_status();
+        int assign_status = ordersData.getAssign_status();
 
         holder.tv_status.setVisibility(View.GONE);
         holder.btn_accept.setVisibility(View.GONE);
         holder.btn_reject.setVisibility(View.GONE);
-        holder.btn_complete.setVisibility(View.VISIBLE);
+        holder.btn_call.setVisibility(View.VISIBLE);
         holder.ll_address.setVisibility(View.VISIBLE);
 
-        switch (status) {
+        switch (assign_status) {
             case 0:
-                if (ordersData.getStatus() == 8) {
+/*                if (ordersData.getStatus() == 8) {
                     holder.btn_complete.setVisibility(View.GONE);
                     holder.tv_status.setVisibility(View.VISIBLE);
                     holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorPurple));
                     holder.tv_status.setText("Delivered");
-                } else {
-                    holder.btn_complete.setVisibility(View.GONE);
-                    holder.btn_accept.setVisibility(View.VISIBLE);
-                    holder.btn_reject.setVisibility(View.VISIBLE);
-                }
+                } else {*/
+                holder.btn_call.setVisibility(View.GONE);
+                holder.btn_accept.setVisibility(View.VISIBLE);
+                holder.btn_reject.setVisibility(View.VISIBLE);
+//                }
                 break;
             case 1:
                 holder.tv_status.setVisibility(View.VISIBLE);
-                holder.tv_status.setText("Accepted");
-                holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGreen));
+                if (ordersData.getStatus() == 8) {
+                    holder.btn_call.setVisibility(View.GONE);
+                    holder.tv_status.setVisibility(View.VISIBLE);
+                    holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorPurple));
+                    holder.tv_status.setText("Delivered");
+                } else {
+                    holder.tv_status.setText("Accepted");
+                    holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGreen));
+                }
+
                 break;
             case 2:
                 holder.ll_address.setVisibility(View.GONE);
-                holder.btn_complete.setVisibility(View.GONE);
+                holder.btn_call.setVisibility(View.GONE);
                 holder.tv_status.setVisibility(View.VISIBLE);
                 holder.tv_status.setText("Canceled");
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorRed));
@@ -96,17 +106,18 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         }
 
         holder.btn_accept.setOnClickListener(view -> {
-            listener.onClickButton(ordersData, 2);
+            listener.onClickButton(ordersData, 9);
         });
         holder.btn_reject.setOnClickListener(view -> {
-            listener.onClickButton(ordersData, 7);
+            listener.onClickButton(ordersData, 10);
         });
-        holder.btn_complete.setOnClickListener(view -> {
-            listener.onClickButton(ordersData, 8);
+        holder.btn_call.setOnClickListener(view -> {
+            //call
+            listener.onClickCall(ordersData);
         });
 
         holder.itemView.setOnClickListener(view -> {
-            if (status == 2 || status == 5)
+            if (assign_status == 1 && ordersData.getStatus() != 8)
                 listener.onClickItem(ordersData);
         });
 
@@ -116,6 +127,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         void onClickButton(OrdersData ordersData, int status);
 
         void onClickItem(OrdersData ordersData);
+        void onClickCall(OrdersData ordersData);
     }
 
     public void setList(List<OrdersData> list) {
@@ -139,8 +151,10 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         AppCompatTextView btn_accept;
         @BindView(R.id.btn_reject)
         AppCompatTextView btn_reject;
-        @BindView(R.id.btn_complete)
-        AppCompatTextView btn_complete;
+        @BindView(R.id.tv_id)
+        AppCompatTextView tv_id;
+        @BindView(R.id.btn_call)
+        ImageView btn_call;
         @BindView(R.id.ll_address)
         LinearLayout ll_address;
 

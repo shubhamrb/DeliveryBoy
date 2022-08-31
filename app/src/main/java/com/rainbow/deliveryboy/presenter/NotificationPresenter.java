@@ -2,8 +2,10 @@ package com.rainbow.deliveryboy.presenter;
 
 import com.rainbow.deliveryboy.api.ApiService;
 import com.rainbow.deliveryboy.api.RetroClient;
+import com.rainbow.deliveryboy.base.BaseActivity;
 import com.rainbow.deliveryboy.base.BasePresenter;
 import com.rainbow.deliveryboy.model.getNotification.NotificationData;
+import com.rainbow.deliveryboy.model.getOrders.OrdersData;
 import com.rainbow.deliveryboy.views.NotificationView;
 
 import java.util.List;
@@ -27,7 +29,6 @@ public class NotificationPresenter extends BasePresenter<NotificationView> {
 
     @Override
     public void destroy() {
-
     }
 
     public void getAllNotification(String token, int current_page, int pagelimit) {
@@ -54,5 +55,4 @@ public class NotificationPresenter extends BasePresenter<NotificationView> {
             }
         });
     }
-
 }

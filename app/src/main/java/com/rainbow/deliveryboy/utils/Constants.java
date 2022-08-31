@@ -14,6 +14,7 @@ public class Constants {
     public static final String SHARED_PREF_INTRO = "App_intro";
     public static final String IS_LOGIN = "isLogin";
     public static final String TOKEN = "token";
+    public static final String TAB = "tab";
 
     public static final String USER_ID = "user_id";
     public static final String IMAGE = "image";

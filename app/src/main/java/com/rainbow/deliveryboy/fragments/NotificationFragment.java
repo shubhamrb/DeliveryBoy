@@ -1,6 +1,7 @@
 package com.rainbow.deliveryboy.fragments;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.ImageView;
@@ -10,8 +11,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.rainbow.deliveryboy.R;
+import com.rainbow.deliveryboy.activity.HomeActivity;
 import com.rainbow.deliveryboy.adapter.NotificationListAdapter;
 import com.rainbow.deliveryboy.base.BaseFragment;
 import com.rainbow.deliveryboy.model.getNotification.NotificationData;
@@ -30,7 +33,8 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NotificationFragment extends BaseFragment<NotificationPresenter, NotificationView> implements NotificationView {
+public class NotificationFragment extends BaseFragment<NotificationPresenter, NotificationView>
+        implements NotificationView, NotificationListAdapter.onClickListener {
 
 
     @BindView(R.id.toolbar)
@@ -42,6 +46,8 @@ public class NotificationFragment extends BaseFragment<NotificationPresenter, No
     ImageView imageViewBack;
     @BindView(R.id.recyclerViewNotification)
     RecyclerView recyclerViewNotification;
+    @BindView(R.id.pullToRefresh)
+    SwipeRefreshLayout pullToRefresh;
 
     private final int PAGE_LIMIT = 10;
     private int CURRENT_PAGE = 0;
@@ -78,7 +84,7 @@ public class NotificationFragment extends BaseFragment<NotificationPresenter, No
         mLoadMore = new LoadMore(recyclerViewNotification);
         mLoadMore.setLoadingMore(false);
         recyclerViewNotification.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NotificationListAdapter(getContext(), list);
+        adapter = new NotificationListAdapter(getContext(), list, this);
         recyclerViewNotification.setAdapter(adapter);
 
         mLoadMore.setOnLoadMoreListener(() -> {
@@ -87,12 +93,19 @@ public class NotificationFragment extends BaseFragment<NotificationPresenter, No
                 loadNotifications();
             }
         });
+        pullToRefresh.setOnRefreshListener(() -> {
+            CURRENT_PAGE = 0;
+            list.clear();
+            mLoadMore.setLoadingMore(false);
+            loadNotifications();
+            pullToRefresh.setRefreshing(false);
+        });
 
         loadNotifications();
     }
 
     private void loadNotifications() {
-        presenter.getAllNotification(strToken,CURRENT_PAGE,PAGE_LIMIT);
+        presenter.getAllNotification(strToken, CURRENT_PAGE, PAGE_LIMIT);
     }
 
 
@@ -112,6 +125,17 @@ public class NotificationFragment extends BaseFragment<NotificationPresenter, No
             adapter.setList(list);
         } else {
             mLoadMore.setLoadingMore(false);
+        }
+    }
+
+    @Override
+    public void onClick() {
+        try {
+            sharedPreferences.edit().putInt(Constants.TAB, 1).apply();
+            getActivity().onBackPressed();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

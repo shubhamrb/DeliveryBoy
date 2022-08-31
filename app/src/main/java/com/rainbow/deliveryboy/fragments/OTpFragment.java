@@ -174,10 +174,52 @@ public class OTpFragment extends BaseFragment<OtpPresenter, OtpView> implements 
             }
         });
 
+        editTextFive.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    editTextSix.requestFocus();
+                } else {
+                    editTextFourthDigits.requestFocus();
+                }
+            }
+        });
+        editTextSix.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    editTextSix.requestFocus();
+                } else {
+                    editTextFourthDigits.requestFocus();
+                }
+            }
+        });
+
         imageViewNext.setOnClickListener(view -> {
             try {
                 otp = editTextFirstDigits.getText().toString() + editTextSecondsDigits.getText().toString()
-                        + editTextThirdDigits.getText().toString() + editTextFourthDigits.getText().toString();
+                        + editTextThirdDigits.getText().toString() + editTextFourthDigits.getText().toString()
+                        + editTextFive.getText().toString() + editTextSix.getText().toString();
 
                 doVerifyCode();
             } catch (Exception e) {
@@ -255,7 +297,7 @@ public class OTpFragment extends BaseFragment<OtpPresenter, OtpView> implements 
 
 
     private void doVerifyCode() {
-        if (TextUtils.isEmpty(otp) || !TextUtils.isDigitsOnly(otp) || otp.length() != 4) {
+        if (TextUtils.isEmpty(otp) || !TextUtils.isDigitsOnly(otp) || otp.length() != 6) {
             Toast.makeText(getActivity(), "Please enter valid OTP.", Toast.LENGTH_LONG).show();
             return;
         }

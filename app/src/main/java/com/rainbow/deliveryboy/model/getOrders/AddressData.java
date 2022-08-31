@@ -17,6 +17,9 @@ public class AddressData implements Serializable {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("mobile")
+    @Expose
+    private String mobile;
 
     @SerializedName("latitude")
     @Expose
@@ -40,6 +43,14 @@ public class AddressData implements Serializable {
 
     public void setAddress_1(String address_1) {
         this.address_1 = address_1;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public String getName() {

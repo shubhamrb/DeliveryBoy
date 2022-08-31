@@ -76,7 +76,7 @@
                 android:layout_below="@id/layoutLine1"
                 android:layout_margin="@dimen/dp_15"
                 android:orientation="horizontal"
-                android:weightSum="4">
+                android:weightSum="6">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/editTextFirstDigits"
@@ -162,7 +162,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/dp_5"
-                    android:visibility="gone"
                     android:layout_weight="1"
                     android:background="@drawable/top_box_bg"
                     android:gravity="center"
@@ -183,7 +182,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/dp_5"
-                    android:visibility="gone"
                     android:layout_weight="1"
                     android:background="@drawable/top_box_bg"
                     android:gravity="center"

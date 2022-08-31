@@ -180,7 +180,6 @@ public class HomeActivity extends AppNavigationProvider implements MenuListAdapt
             }
         });
 
-
     }
 
     private void sendReferral() {
@@ -230,7 +229,7 @@ public class HomeActivity extends AppNavigationProvider implements MenuListAdapt
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
+                                           @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         switch (requestCode) {
             case 1: {
@@ -246,8 +245,24 @@ public class HomeActivity extends AppNavigationProvider implements MenuListAdapt
     @Override
     protected void onResume() {
         super.onResume();
+        if (getIntent().hasExtra("type")) {
+            sharedPreferences.edit().putInt(Constants.TAB, 1).apply();
+            switchTabs();
+        }
     }
 
+    public void switchTabs() {
+        try {
+            sharedPreferences.edit().putInt(Constants.TAB, 0).apply();
+            HomeFragment fragment = (HomeFragment) fragmentManager.findFragmentByTag(HomeFragment.class.getName());
+            if (fragment != null) {
+                fragment.switchTab();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -320,4 +335,5 @@ public class HomeActivity extends AppNavigationProvider implements MenuListAdapt
             newBuilder.show();
         }
     }
+
 }

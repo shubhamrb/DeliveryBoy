@@ -3,7 +3,9 @@ package com.rainbow.deliveryboy.fragments;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -18,6 +20,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.gson.JsonObject;
 import com.rainbow.deliveryboy.R;
@@ -43,6 +46,8 @@ public class OrdersFragment extends BaseFragment<OrdersPresenter, OrdersView> im
 
     @BindView(R.id.recyclerViewOrder)
     RecyclerView recyclerViewOrder;
+    @BindView(R.id.pullToRefresh)
+    SwipeRefreshLayout pullToRefresh;
     private SharedPreferences sharedPreferences;
 
     private final int PAGE_LIMIT = 10;
@@ -89,6 +94,14 @@ public class OrdersFragment extends BaseFragment<OrdersPresenter, OrdersView> im
         });
 
         loadOrders();
+
+        pullToRefresh.setOnRefreshListener(() -> {
+            CURRENT_PAGE = 0;
+            orderList.clear();
+            mLoadMore.setLoadingMore(false);
+            loadOrders();
+            pullToRefresh.setRefreshing(false);
+        });
     }
 
     private void loadOrders() {
@@ -138,7 +151,7 @@ public class OrdersFragment extends BaseFragment<OrdersPresenter, OrdersView> im
 
     @Override
     public void onClickButton(OrdersData ordersData, int status) {
-        if (status == 7) {
+        if (status == 10) {
             /*cancel*/
             showCancelReason(ordersData.getId(), status);
         } else if (status == 8) {
@@ -220,5 +233,16 @@ public class OrdersFragment extends BaseFragment<OrdersPresenter, OrdersView> im
     @Override
     public void onClickItem(OrdersData ordersData) {
         presenter.openOrderDetail(ordersData);
+    }
+
+    @Override
+    public void onClickCall(OrdersData ordersData) {
+        try {
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse("tel:" + ordersData.getAddress().getMobile()));
+            startActivity(callIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

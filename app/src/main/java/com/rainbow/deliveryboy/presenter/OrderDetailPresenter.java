@@ -74,7 +74,7 @@ public class OrderDetailPresenter extends BasePresenter<OrderDetailView> {
             }
 
             if (amount != null) {
-                jsonObject.put("amount", Integer.parseInt(amount));
+                jsonObject.put("amount", Double.parseDouble(amount));
             }
         } catch (JSONException e) {
             e.printStackTrace();

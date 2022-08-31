@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -68,6 +69,9 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailPresenter, Orde
     @BindView(R.id.buttonComplete)
     AppCompatButton buttonComplete;
 
+    @BindView(R.id.btn_call)
+    ImageView btn_call;
+
     private SharedPreferences sharedPreferences;
     private String strToken = "";
     private OrdersData ordersData;
@@ -98,15 +102,19 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailPresenter, Orde
         if (bundle != null) {
             ordersData = (OrdersData) bundle.getSerializable("ordersData");
             if (ordersData != null) {
-                tv_order.setText("Order #" + ordersData.getId());
+                tv_order.setText("Order #" + ordersData.getOrderId());
                 tv_amount.setText("₹" + ordersData.getFinal_price());
                 tv_address.setText(ordersData.getAddress().getAddress_1());
                 tv_date.setText(ordersData.getOrder_date().split("T")[0]);
                 tv_title.setText(ordersData.getAddress().getName());
-                if (ordersData.getPayment_channel().equalsIgnoreCase("Offline")) {
-                    tv_payment.setText("Payment - COD");
+                if (ordersData.getPayment_channel().equalsIgnoreCase("cod")) {
+                    tv_payment.setText("Payment method- COD");
                 } else {
-                    tv_payment.setText("Payment - Online");
+                    if (ordersData.getPayment_status().equalsIgnoreCase("pending")) {
+                        tv_payment.setText("Payment method - Online (Payment not done)");
+                    } else {
+                        tv_payment.setText("Payment method - Online");
+                    }
                 }
                 loadOrderDetail();
 
@@ -118,11 +126,25 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailPresenter, Orde
                 });
 
                 buttonComplete.setOnClickListener(view -> {
-                    showCompleteOtp(ordersData.getId(), ordersData.getStatus(), ordersData.getFinal_price(), ordersData.getOtp());
+                    if (!ordersData.getPayment_channel().equalsIgnoreCase("cod") && ordersData.getPayment_status().equalsIgnoreCase("pending")) {
+                        Toast.makeText(getActivity(), "Payment is not done yet.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    showCompleteOtp(ordersData.getId(), 8, ordersData.getFinal_price(), ordersData.getOtp());
                 });
 
                 buttonCancel.setOnClickListener(view -> {
-                    showCancelReason(ordersData.getId(), ordersData.getStatus());
+                    showCancelReason(ordersData.getId(), 10);
+                });
+
+                btn_call.setOnClickListener(view -> {
+                    try {
+                        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                        callIntent.setData(Uri.parse("tel:" + ordersData.getAddress().getMobile()));
+                        startActivity(callIntent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 });
             }
         }
