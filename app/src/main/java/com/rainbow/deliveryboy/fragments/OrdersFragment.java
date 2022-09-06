@@ -57,6 +57,8 @@ public class OrdersFragment extends BaseFragment<OrdersPresenter, OrdersView> im
     private OrderListAdapter orderListAdapter;
     private List<OrdersData> orderList;
     private String strToken = "";
+    private int STATUS = 0;
+
 
     @Override
     protected int createLayout() {
@@ -79,6 +81,18 @@ public class OrdersFragment extends BaseFragment<OrdersPresenter, OrdersView> im
         sharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         strToken = sharedPreferences.getString(Constants.TOKEN, "");
 
+        setUpRecycler();
+
+        pullToRefresh.setOnRefreshListener(() -> {
+            CURRENT_PAGE = 0;
+            orderList.clear();
+            mLoadMore.setLoadingMore(false);
+            loadOrders(STATUS);
+            pullToRefresh.setRefreshing(false);
+        });
+    }
+
+    private void setUpRecycler() {
         orderList = new ArrayList<>();
         mLoadMore = new LoadMore(recyclerViewOrder);
         mLoadMore.setLoadingMore(false);
@@ -86,26 +100,28 @@ public class OrdersFragment extends BaseFragment<OrdersPresenter, OrdersView> im
         orderListAdapter = new OrderListAdapter(getContext(), orderList, this);
         recyclerViewOrder.setAdapter(orderListAdapter);
 
+
         mLoadMore.setOnLoadMoreListener(() -> {
             if (isLoadMore) {
                 CURRENT_PAGE++;
-                loadOrders();
+                loadOrders(STATUS);
             }
         });
-
-        loadOrders();
-
-        pullToRefresh.setOnRefreshListener(() -> {
-            CURRENT_PAGE = 0;
-            orderList.clear();
-            mLoadMore.setLoadingMore(false);
-            loadOrders();
-            pullToRefresh.setRefreshing(false);
-        });
+        loadOrders(STATUS);
     }
 
-    private void loadOrders() {
-        presenter.getOrders(strToken, CURRENT_PAGE, PAGE_LIMIT);
+
+    private void loadOrders(int status) {
+        presenter.getOrders(strToken, CURRENT_PAGE, PAGE_LIMIT, status);
+    }
+
+    public void filterStatus(int status) {
+        try {
+            STATUS = status;
+            setUpRecycler();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -146,7 +162,7 @@ public class OrdersFragment extends BaseFragment<OrdersPresenter, OrdersView> im
     @Override
     public void statusUpdated(JsonObject jsonObject) {
         showMessage(jsonObject.get("message").getAsString());
-        loadOrders();
+        loadOrders(STATUS);
     }
 
     @Override

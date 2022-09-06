@@ -35,10 +35,10 @@ public class OrdersPresenter extends BasePresenter<OrdersView> {
 
     }
 
-    public void getOrders(String token, int current_page, int pagelimit) {
+    public void getOrders(String token, int current_page, int pagelimit, int status) {
         view.showLoader();
         ApiService api = RetroClient.getApiService();
-        Call<List<OrdersData>> call = api.getOrdersList("deliveryboy/orderlist/" + current_page + "/" + pagelimit, token);
+        Call<List<OrdersData>> call = api.getOrdersList("deliveryboy/orderlist/" + current_page + "/" + pagelimit + "/" + status, token);
         call.enqueue(new Callback<List<OrdersData>>() {
             @Override
             public void onResponse(Call<List<OrdersData>> call, Response<List<OrdersData>> response) {

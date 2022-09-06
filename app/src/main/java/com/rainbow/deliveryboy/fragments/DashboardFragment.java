@@ -4,11 +4,10 @@ package com.rainbow.deliveryboy.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -48,6 +47,16 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter, Dashboar
 
     @BindView(R.id.btn_request)
     AppCompatTextView btn_request;
+
+    @BindView(R.id.btn_complete)
+    CardView btn_complete;
+    @BindView(R.id.btn_pending)
+    CardView btn_pending;
+    @BindView(R.id.btn_rejected)
+    CardView btn_rejected;
+    @BindView(R.id.btn_total)
+    CardView btn_total;
+
     private DashboardData data;
 
     @BindView(R.id.pullToRefresh)
@@ -79,6 +88,24 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter, Dashboar
         });
         getDashboardData();
 
+        btn_complete.setOnClickListener(view -> {
+            onBoxClick(8);
+        });
+        btn_pending.setOnClickListener(view -> {
+            onBoxClick(1);
+        });
+        btn_rejected.setOnClickListener(view -> {
+            onBoxClick(10);
+        });
+        btn_total.setOnClickListener(view -> {
+            onBoxClick(0);
+        });
+
+    }
+
+    private void onBoxClick(int status) {
+        sharedPreferences.edit().putInt(Constants.TAB, 1).apply();
+        switchTab(status);
     }
 
     private void getDashboardData() {
@@ -120,15 +147,19 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter, Dashboar
             text_total.setText("Total\n" + dashboardData.getTotalOrder());
             wallet_amount.setText("₹" + dashboardData.getWallet_amount());
 
-            try {
-                int TAB = sharedPreferences.getInt(Constants.TAB, 0);
-                if (TAB == 1) {
-                    Activity activity = getActivity();
-                    HomeActivity homeActivity= (HomeActivity) activity;
-                    homeActivity.switchTabs();
-                }
-            }catch (Exception e){
-                e.printStackTrace();
+            switchTab(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void switchTab(int status) {
+        try {
+            int TAB = sharedPreferences.getInt(Constants.TAB, 0);
+            if (TAB == 1) {
+                Activity activity = getActivity();
+                HomeActivity homeActivity = (HomeActivity) activity;
+                homeActivity.switchTabs(status);
             }
         } catch (Exception e) {
             e.printStackTrace();

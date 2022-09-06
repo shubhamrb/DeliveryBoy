@@ -247,16 +247,16 @@ public class HomeActivity extends AppNavigationProvider implements MenuListAdapt
         super.onResume();
         if (getIntent().hasExtra("type")) {
             sharedPreferences.edit().putInt(Constants.TAB, 1).apply();
-            switchTabs();
+            switchTabs(0);
         }
     }
 
-    public void switchTabs() {
+    public void switchTabs(int status) {
         try {
             sharedPreferences.edit().putInt(Constants.TAB, 0).apply();
             HomeFragment fragment = (HomeFragment) fragmentManager.findFragmentByTag(HomeFragment.class.getName());
             if (fragment != null) {
-                fragment.switchTab();
+                fragment.switchTab(status);
             }
 
         } catch (Exception e) {
@@ -316,7 +316,7 @@ public class HomeActivity extends AppNavigationProvider implements MenuListAdapt
         if (s == 1) {
             HomeFragment fragment = (HomeFragment) fragmentManager.findFragmentByTag(HomeFragment.class.getName());
             if (fragment != null) {
-                fragment.switchTab();
+                fragment.switchTab(0);
             }
         } else if (s == 8) {
             final AlertDialog.Builder newBuilder = new AlertDialog.Builder(this);

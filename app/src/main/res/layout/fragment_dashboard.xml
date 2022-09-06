@@ -23,6 +23,7 @@
                 android:orientation="horizontal">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/btn_complete"
                     android:layout_width="@dimen/dp_130"
                     android:layout_height="@dimen/dp_130"
                     android:layout_margin="@dimen/_5sdp"
@@ -42,6 +43,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/btn_pending"
                     android:layout_width="@dimen/dp_130"
                     android:layout_height="@dimen/dp_130"
                     android:layout_margin="@dimen/_5sdp"
@@ -69,6 +71,7 @@
                 android:orientation="horizontal">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/btn_rejected"
                     android:layout_width="@dimen/dp_130"
                     android:layout_height="@dimen/dp_130"
                     android:layout_margin="@dimen/_5sdp"
@@ -88,6 +91,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/btn_total"
                     android:layout_width="@dimen/dp_130"
                     android:layout_height="@dimen/dp_130"
                     android:layout_margin="@dimen/_5sdp"

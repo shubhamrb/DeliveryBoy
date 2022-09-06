@@ -3,6 +3,8 @@ package com.rainbow.deliveryboy.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,6 +52,7 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeView> implemen
     AppCompatTextView textCompleted;
     @BindView(R.id.layoutcompleted)
     LinearLayout layoutcompleted;
+    private SectionPagerHomeAdapter sectionPagerAdapter;
 
     @Override
     protected int createLayout() {
@@ -72,11 +75,11 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeView> implemen
         sharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         strToken = sharedPreferences.getString(Constants.TOKEN, "");
 
-        SectionPagerHomeAdapter sectionPagerAdapter =
+        sectionPagerAdapter =
                 new SectionPagerHomeAdapter(getChildFragmentManager(), 2);
         viewpagermyride.setAdapter(sectionPagerAdapter);
-        viewpagermyride.setOffscreenPageLimit(1);
-        viewpagermyride.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewpagermyride.setOffscreenPageLimit(2);
+        viewpagermyride.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
 
@@ -115,8 +118,11 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeView> implemen
         super.onPause();
     }
 
-    public void switchTab() {
+    public void switchTab(int status) {
         viewpagermyride.setCurrentItem(1);
+
+        OrdersFragment fragment = (OrdersFragment) sectionPagerAdapter.getRegisteredFragment(1);
+        fragment.filterStatus(status);
     }
 
     @Override
