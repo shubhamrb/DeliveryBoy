@@ -87,7 +87,7 @@ public class OrdersFragment extends BaseFragment<OrdersPresenter, OrdersView> im
             CURRENT_PAGE = 0;
             orderList.clear();
             mLoadMore.setLoadingMore(false);
-            loadOrders(STATUS);
+            loadOrders(0);
             pullToRefresh.setRefreshing(false);
         });
     }
@@ -99,7 +99,6 @@ public class OrdersFragment extends BaseFragment<OrdersPresenter, OrdersView> im
         recyclerViewOrder.setLayoutManager(new LinearLayoutManager(getContext()));
         orderListAdapter = new OrderListAdapter(getContext(), orderList, this);
         recyclerViewOrder.setAdapter(orderListAdapter);
-
 
         mLoadMore.setOnLoadMoreListener(() -> {
             if (isLoadMore) {

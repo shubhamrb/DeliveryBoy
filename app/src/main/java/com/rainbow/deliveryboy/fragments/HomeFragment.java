@@ -3,8 +3,6 @@ package com.rainbow.deliveryboy.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -106,6 +104,15 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeView> implemen
 
             }
         });
+
+        try {
+            if (sharedPreferences.getInt(Constants.TAB, 0) == 1) {
+                sharedPreferences.edit().putInt(Constants.TAB, 0).apply();
+                switchTab(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

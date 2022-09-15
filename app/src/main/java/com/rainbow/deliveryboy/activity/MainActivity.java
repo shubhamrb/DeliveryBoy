@@ -85,11 +85,10 @@ public class MainActivity extends AppNavigationProvider {
                 }else {
                     startActivity(new Intent(MainActivity.this, HomeActivity.class));
                 }
-                finish();
             } else {
                 startActivity(new Intent(MainActivity.this, AuthActivity.class));
-                finish();
             }
+            finish();
 
         } else {
             SectionPagerWalkTroughAdapter sectionPagerWalkTroughAdapter =

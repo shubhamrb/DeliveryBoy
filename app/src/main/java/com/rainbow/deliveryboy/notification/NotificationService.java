@@ -18,6 +18,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.rainbow.deliveryboy.R;
 import com.rainbow.deliveryboy.activity.HomeActivity;
+import com.rainbow.deliveryboy.activity.SplashActivity;
 
 public class NotificationService extends FirebaseMessagingService {
     private static final String TAG = "NotificationService";
@@ -48,8 +49,8 @@ public class NotificationService extends FirebaseMessagingService {
                 if (message == null) {
                     message = "";
                 }
-                if (type == null) {
-                    type = "";
+                if (type == null || type.isEmpty()) {
+                    type = "NA";
                 }
                 Log.d("title ", title);
                 Log.d("message ", message);
@@ -81,11 +82,11 @@ public class NotificationService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(mChannel);
 
 
-            Intent resultIntent = new Intent(this, HomeActivity.class);
+            Intent resultIntent = new Intent(this, SplashActivity.class);
             resultIntent.putExtra("type", type);
             resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-            PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_IMMUTABLE);
+            PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_ONE_SHOT);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                     .setSmallIcon(R.drawable.logo_icon)
@@ -98,7 +99,7 @@ public class NotificationService extends FirebaseMessagingService {
             notificationManager.notify(NOTIFICATION_ID, builder.build());
 
         } else {
-            Intent resultIntent = new Intent(this, HomeActivity.class);
+            Intent resultIntent = new Intent(this, SplashActivity.class);
             resultIntent.putExtra("type", type);
             PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_ONE_SHOT);
             Notification n = new Notification.Builder(this)

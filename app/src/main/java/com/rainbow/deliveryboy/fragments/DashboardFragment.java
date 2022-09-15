@@ -95,7 +95,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter, Dashboar
             onBoxClick(1);
         });
         btn_rejected.setOnClickListener(view -> {
-            onBoxClick(10);
+            onBoxClick(7);
         });
         btn_total.setOnClickListener(view -> {
             onBoxClick(0);

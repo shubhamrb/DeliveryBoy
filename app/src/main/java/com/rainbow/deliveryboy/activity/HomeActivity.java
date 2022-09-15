@@ -117,6 +117,7 @@ public class HomeActivity extends AppNavigationProvider implements MenuListAdapt
         }
 
         referral_id = getIntent().getStringExtra("referral_id");
+        String notification_type = getIntent().getStringExtra("type");
 
         if (referral_id != null) {
 //            sendReferral();
@@ -135,15 +136,8 @@ public class HomeActivity extends AppNavigationProvider implements MenuListAdapt
             closeDrawer();
 //            openProfileFragment(PerformFragment.REPLACE);
         });
-//        checkAndRequestPermissions();
 
         menuList.add(new MenuItem(1, getResources().getString(R.string.my_orders), R.drawable.my_ride));
-//        menuList.add(new MenuItem(2, "Task Report", R.drawable.wallet));
-        /*menuList.add(new MenuItem(3, getResources().getString(R.string.my_vehicle), R.drawable.my_vehicle));
-        menuList.add(new MenuItem(4, getResources().getString(R.string.my_chat), R.drawable.chats));
-        menuList.add(new MenuItem(5, "Refer & Earn", R.drawable.refer));
-        menuList.add(new MenuItem(6, getResources().getString(R.string.help_ticket), R.drawable.help));
-        menuList.add(new MenuItem(7, getResources().getString(R.string.setting), R.drawable.setting));*/
         menuList.add(new MenuItem(8, getResources().getString(R.string.logout), R.drawable.logout));
 
         leftDrawer.setLayoutManager(new LinearLayoutManager(this));
@@ -179,6 +173,10 @@ public class HomeActivity extends AppNavigationProvider implements MenuListAdapt
                 startActivity(intent);
             }
         });
+
+        if (notification_type != null) {
+            sharedPreferences.edit().putInt(Constants.TAB, 1).apply();
+        }
 
     }
 
@@ -245,10 +243,6 @@ public class HomeActivity extends AppNavigationProvider implements MenuListAdapt
     @Override
     protected void onResume() {
         super.onResume();
-        if (getIntent().hasExtra("type")) {
-            sharedPreferences.edit().putInt(Constants.TAB, 1).apply();
-            switchTabs(0);
-        }
     }
 
     public void switchTabs(int status) {

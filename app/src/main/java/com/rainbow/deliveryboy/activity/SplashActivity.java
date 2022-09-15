@@ -6,32 +6,35 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.rainbow.deliveryboy.R;
 import com.rainbow.deliveryboy.utils.Constants;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 public class SplashActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences sharedPreferencesIntro;
     private String referral_id = null;
+    private String notification_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         sharedPreferences = getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        sharedPreferencesIntro =
-                getSharedPreferences(Constants.SHARED_PREF_INTRO, Context.MODE_PRIVATE);
+        sharedPreferencesIntro = getSharedPreferences(Constants.SHARED_PREF_INTRO, Context.MODE_PRIVATE);
+
+        if (getIntent().hasExtra("type")) {
+            notification_type = getIntent().getStringExtra("type");
+        }
         goToNext();
     }
 
@@ -39,12 +42,24 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             if (sharedPreferencesIntro.getBoolean(Constants.IS_INTRO, false)) {
                 if (sharedPreferences.getBoolean(Constants.IS_LOGIN, false)) {
-                    startActivity(new Intent(SplashActivity.this, HomeActivity.class).putExtra("referral_id", referral_id));
+                    Intent intent = new Intent(this, HomeActivity.class);
+                    intent.putExtra("referral_id", referral_id);
+                    if (notification_type != null) {
+                        intent.putExtra("type", notification_type);
+                    }
+                    startActivity(intent);
                 } else {
-                    startActivity(new Intent(SplashActivity.this, AuthActivity.class).putExtra("referral_id", referral_id));
+                    Intent intent = new Intent(this, AuthActivity.class);
+                    intent.putExtra("referral_id", referral_id);
+
+                    if (notification_type != null) {
+                        intent.putExtra("type", notification_type);
+                    }
+                    startActivity(intent);
                 }
             } else {
-                startActivity(new Intent(SplashActivity.this, MainActivity.class).putExtra("referral_id", referral_id));
+                startActivity(new Intent(this, MainActivity.class)
+                        .putExtra("referral_id", referral_id));
             }
             finish();
         }, 2000);
