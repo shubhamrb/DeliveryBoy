@@ -47,18 +47,11 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
+                <action android:name="SplashActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="charpair.com"
-                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity
@@ -71,8 +64,11 @@
             android:name="com.rainbow.deliveryboy.activity.HomeActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:supportsPictureInPicture="true" />
+            android:supportsPictureInPicture="true">
+
+        </activity>
 
         <activity
             android:name="com.rainbow.deliveryboy.activity.AuthActivity"

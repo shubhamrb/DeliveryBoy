@@ -17,7 +17,7 @@
 
     <string name="msg_token_fmt" translatable="false">FCM registration Token: %s</string>
 
-    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="default_notification_channel_id" translatable="false">my_channel_02</string>
     <string name="upcoming">Upcoming</string>
     <string name="completed">Completed</string>
     <string name="find_matches">Find Matches</string>

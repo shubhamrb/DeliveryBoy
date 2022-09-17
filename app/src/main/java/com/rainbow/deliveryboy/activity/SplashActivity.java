@@ -32,8 +32,8 @@ public class SplashActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         sharedPreferencesIntro = getSharedPreferences(Constants.SHARED_PREF_INTRO, Context.MODE_PRIVATE);
 
-        if (getIntent().hasExtra("type")) {
-            notification_type = getIntent().getStringExtra("type");
+        if (getIntent().hasExtra("title")) {
+            notification_type = getIntent().getStringExtra("title");
         }
         goToNext();
     }
@@ -45,7 +45,7 @@ public class SplashActivity extends AppCompatActivity {
                     Intent intent = new Intent(this, HomeActivity.class);
                     intent.putExtra("referral_id", referral_id);
                     if (notification_type != null) {
-                        intent.putExtra("type", notification_type);
+                        intent.putExtra("title", notification_type);
                     }
                     startActivity(intent);
                 } else {
@@ -53,7 +53,7 @@ public class SplashActivity extends AppCompatActivity {
                     intent.putExtra("referral_id", referral_id);
 
                     if (notification_type != null) {
-                        intent.putExtra("type", notification_type);
+                        intent.putExtra("title", notification_type);
                     }
                     startActivity(intent);
                 }

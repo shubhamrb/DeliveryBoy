@@ -108,7 +108,7 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeView> implemen
         try {
             if (sharedPreferences.getInt(Constants.TAB, 0) == 1) {
                 sharedPreferences.edit().putInt(Constants.TAB, 0).apply();
-                switchTab(1);
+                switchTab(11);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,7 +129,8 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeView> implemen
         viewpagermyride.setCurrentItem(1);
 
         OrdersFragment fragment = (OrdersFragment) sectionPagerAdapter.getRegisteredFragment(1);
-        fragment.filterStatus(status);
+        if (fragment != null)
+            fragment.filterStatus(status);
     }
 
     @Override

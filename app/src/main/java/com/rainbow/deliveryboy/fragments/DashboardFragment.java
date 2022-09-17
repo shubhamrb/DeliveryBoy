@@ -92,11 +92,11 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter, Dashboar
             onBoxClick(8);
         });
         btn_pending.setOnClickListener(view -> {
-            onBoxClick(1);
+            onBoxClick(11);
         });
-        btn_rejected.setOnClickListener(view -> {
+        /*btn_rejected.setOnClickListener(view -> {
             onBoxClick(7);
-        });
+        });*/
         btn_total.setOnClickListener(view -> {
             onBoxClick(0);
         });
@@ -142,7 +142,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter, Dashboar
         try {
             data = dashboardData;
             text_completed.setText("Completed\n" + dashboardData.getCompleteOrder());
-            text_pending.setText("Pending\n" + dashboardData.getPaddingOrder());
+            text_pending.setText("Request\nPending\n" + dashboardData.getPaddingOrder());
             text_rejected.setText("Rejected\n" + dashboardData.getCancelOrder());
             text_total.setText("Total\n" + dashboardData.getTotalOrder());
             wallet_amount.setText("₹" + dashboardData.getWallet_amount());

@@ -49,10 +49,16 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         OrdersData ordersData = list.get(position);
-        holder.tv_id.setText("#"+ordersData.getOrderId());
-        holder.tv_title.setText(ordersData.getAddress().getName());
-        holder.tv_address.setText(ordersData.getAddress().getAddress_1());
-        holder.tv_date.setText(ordersData.getOrder_date().split("T")[0]);
+        holder.tv_id.setText("#" + ordersData.getOrderId());
+
+        if (ordersData.getAddress() != null) {
+            holder.tv_title.setText("" + ordersData.getAddress().getName());
+            holder.tv_address.setText("" + ordersData.getAddress().getAddress_1());
+        }
+
+        if (ordersData.getOrder_date() != null) {
+            holder.tv_date.setText(ordersData.getOrder_date().split("T")[0]);
+        }
 
         /*try {
             Glide.with(context).load(notificationData.getImage())
@@ -127,6 +133,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         void onClickButton(OrdersData ordersData, int status);
 
         void onClickItem(OrdersData ordersData);
+
         void onClickCall(OrdersData ordersData);
     }
 

@@ -17,7 +17,6 @@ import androidx.core.content.ContextCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.rainbow.deliveryboy.R;
-import com.rainbow.deliveryboy.activity.HomeActivity;
 import com.rainbow.deliveryboy.activity.SplashActivity;
 
 public class NotificationService extends FirebaseMessagingService {
@@ -35,7 +34,7 @@ public class NotificationService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
 
         if (remoteMessage.getData().size() > 0) {
-            type = remoteMessage.getData().get("type");
+            type = remoteMessage.getData().get("title");
         }
 
         // Check if message contains a notification payload.
@@ -83,10 +82,10 @@ public class NotificationService extends FirebaseMessagingService {
 
 
             Intent resultIntent = new Intent(this, SplashActivity.class);
-            resultIntent.putExtra("type", type);
+            resultIntent.putExtra("title", type);
             resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-            PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                     .setSmallIcon(R.drawable.logo_icon)
@@ -100,7 +99,7 @@ public class NotificationService extends FirebaseMessagingService {
 
         } else {
             Intent resultIntent = new Intent(this, SplashActivity.class);
-            resultIntent.putExtra("type", type);
+            resultIntent.putExtra("title", type);
             PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_ONE_SHOT);
             Notification n = new Notification.Builder(this)
                     .setContentTitle(title)
