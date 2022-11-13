@@ -1,5 +1,7 @@
 package com.rainbow.deliveryboy.presenter;
 
+import android.content.Context;
+
 import com.rainbow.deliveryboy.api.ApiService;
 import com.rainbow.deliveryboy.api.RetroClient;
 import com.rainbow.deliveryboy.base.BaseActivity;
@@ -31,9 +33,9 @@ public class NotificationPresenter extends BasePresenter<NotificationView> {
     public void destroy() {
     }
 
-    public void getAllNotification(String token, int current_page, int pagelimit) {
+    public void getAllNotification(Context context,String token, int current_page, int pagelimit) {
         view.showLoader();
-        ApiService api = RetroClient.getApiService();
+        ApiService api = RetroClient.getApiService(context);
         Call<List<NotificationData>> call = api.getNotificationList("deliveryboy/notificationlist/" + current_page + "/" + pagelimit, token);
         call.enqueue(new Callback<List<NotificationData>>() {
             @Override

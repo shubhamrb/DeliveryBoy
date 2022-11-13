@@ -1,5 +1,7 @@
 package com.rainbow.deliveryboy.presenter;
 
+import android.content.Context;
+
 import com.google.gson.JsonObject;
 import com.rainbow.deliveryboy.api.ApiService;
 import com.rainbow.deliveryboy.api.RetroClient;
@@ -35,9 +37,9 @@ public class OrdersPresenter extends BasePresenter<OrdersView> {
 
     }
 
-    public void getOrders(String token, int current_page, int pagelimit, int status) {
+    public void getOrders(Context context,String token, int current_page, int pagelimit, int status) {
         view.showLoader();
-        ApiService api = RetroClient.getApiService();
+        ApiService api = RetroClient.getApiService(context);
         Call<List<OrdersData>> call = api.getOrdersList("deliveryboy/orderlist/" + current_page + "/" + pagelimit + "/" + status, token);
         call.enqueue(new Callback<List<OrdersData>>() {
             @Override
@@ -60,7 +62,7 @@ public class OrdersPresenter extends BasePresenter<OrdersView> {
         });
     }
 
-    public void updateStatus(String token, int order_id, int status, String reason, String otp, String amount) {
+    public void updateStatus(Context context,String token, int order_id, int status, String reason, String otp, String amount,String event) {
 
         JSONObject jsonObject = new JSONObject();
 
@@ -80,7 +82,7 @@ public class OrdersPresenter extends BasePresenter<OrdersView> {
             e.printStackTrace();
         }
         view.showLoader();
-        ApiService api = RetroClient.getApiService();
+        ApiService api = RetroClient.getApiService(context);
         Call<JsonObject> call = api.updateStatus(token, jsonObject.toString());
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -88,7 +90,7 @@ public class OrdersPresenter extends BasePresenter<OrdersView> {
                 view.hideLoader();
                 if (response.body() != null) {
                     if (response.code() == 200) {
-                        view.statusUpdated(response.body());
+                        view.statusUpdated(response.body(),event);
                     } else {
                         view.showMessage("Something went wrong.");
                     }

@@ -1,5 +1,7 @@
 package com.rainbow.deliveryboy.presenter;
 
+import android.content.Context;
+
 import com.google.gson.JsonObject;
 import com.rainbow.deliveryboy.api.ApiService;
 import com.rainbow.deliveryboy.api.RetroClient;
@@ -32,14 +34,18 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
 
     }
 
-    public void getDashboardData(String token) {
-        view.showLoader();
-        ApiService api = RetroClient.getApiService();
+    public void getDashboardData(String token, Context context, boolean showLoader) {
+        if (showLoader) {
+            view.showLoader();
+        }
+        ApiService api = RetroClient.getApiService(context);
         Call<DashboardData> call = api.getDashboardData("deliveryboy/dashboarddata", token);
         call.enqueue(new Callback<DashboardData>() {
             @Override
             public void onResponse(Call<DashboardData> call, Response<DashboardData> response) {
-                view.hideLoader();
+                if (showLoader) {
+                    view.hideLoader();
+                }
                 if (response.body() != null) {
                     if (response.code() == 200) {
                         view.setDashboardData(response.body());
@@ -57,7 +63,7 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
         });
     }
 
-    public void requestAmountSubmit(String token, String amount, int store_id) {
+    public void requestAmountSubmit(Context context, String token, String amount, int store_id) {
         view.showLoader();
 
         JSONObject jsonObject = new JSONObject();
@@ -68,7 +74,7 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        ApiService api = RetroClient.getApiService();
+        ApiService api = RetroClient.getApiService(context);
         Call<JsonObject> call = api.requestAmountSubmit("deliveryboy/submitcollectamount", token, jsonObject.toString());
         call.enqueue(new Callback<JsonObject>() {
             @Override

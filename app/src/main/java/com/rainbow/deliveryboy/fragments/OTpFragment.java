@@ -291,7 +291,7 @@ public class OTpFragment extends BaseFragment<OtpPresenter, OtpView> implements 
 
     private void sendCode() {
         if (mobileNo != null && !mobileNo.isEmpty()) {
-            presenter.sendOtp(mobileNo);
+            presenter.sendOtp(getContext(),mobileNo);
         }
     }
 
@@ -303,7 +303,7 @@ public class OTpFragment extends BaseFragment<OtpPresenter, OtpView> implements 
         }
         FirebaseMessaging.getInstance().getToken().addOnSuccessListener(token -> {
             if (token != null && token.length() != 0) {
-                presenter.verifyOtp(otp, mobileNo, token);
+                presenter.verifyOtp(getContext(),otp, mobileNo, token);
             }
         });
     }

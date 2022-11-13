@@ -10,5 +10,5 @@ import java.util.List;
 public interface OrdersView extends RootView {
     void setOrdersData(List<OrdersData> data);
 
-    void statusUpdated(JsonObject jsonObject);
+    void statusUpdated(JsonObject jsonObject, String event);
 }

@@ -1,5 +1,7 @@
 package com.rainbow.deliveryboy.presenter;
 
+import android.content.Context;
+
 import com.google.gson.JsonObject;
 import com.rainbow.deliveryboy.api.ApiService;
 import com.rainbow.deliveryboy.api.RetroClient;
@@ -34,9 +36,9 @@ public class OrderDetailPresenter extends BasePresenter<OrderDetailView> {
 
     }
 
-    public void getOrderDetail(String token, String order_id) {
+    public void getOrderDetail(Context context,String token, String order_id) {
         view.showLoader();
-        ApiService api = RetroClient.getApiService();
+        ApiService api = RetroClient.getApiService(context);
         Call<List<OrderItem>> call = api.getOrderDetail("order/orderdetail/" + order_id, token);
         call.enqueue(new Callback<List<OrderItem>>() {
             @Override
@@ -59,7 +61,7 @@ public class OrderDetailPresenter extends BasePresenter<OrderDetailView> {
         });
     }
 
-    public void updateStatus(String token, int order_id, int status, String reason, String otp, String amount) {
+    public void updateStatus(Context context,String token, int order_id, int status, String reason, String otp, String amount,String event) {
 
         JSONObject jsonObject = new JSONObject();
 
@@ -80,7 +82,7 @@ public class OrderDetailPresenter extends BasePresenter<OrderDetailView> {
             e.printStackTrace();
         }
         view.showLoader();
-        ApiService api = RetroClient.getApiService();
+        ApiService api = RetroClient.getApiService(context);
         Call<JsonObject> call = api.updateStatus(token, jsonObject.toString());
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -88,7 +90,7 @@ public class OrderDetailPresenter extends BasePresenter<OrderDetailView> {
                 view.hideLoader();
                 if (response.body() != null) {
                     if (response.code() == 200) {
-                        view.statusUpdated(response.body());
+                        view.statusUpdated(response.body(),event);
                     } else {
                         view.showMessage("Something went wrong.");
                     }

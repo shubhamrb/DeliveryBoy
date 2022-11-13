@@ -1,6 +1,8 @@
 package com.rainbow.deliveryboy.api;
 
 
+import android.content.Context;
+
 import com.google.gson.GsonBuilder;
 
 import java.security.cert.CertificateException;
@@ -24,16 +26,16 @@ public class RetroClient {
      * ***** URLS *****
      */
 //    private static final String ROOT_URL = "https://mamits.org:3001/";
-        private static final String ROOT_URL = "https://rainbowfresh.in:3001/";
+    private static final String ROOT_URL = "https://rainbowfresh.in:3001/";
+    private static Context context;
+
     /**
      * Get Retrofit Instance
      */
-    private static Retrofit getRetrofitInstance() {
-
+    private static Retrofit getRetrofitInstance(Context c) {
+        context = c;
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.level(HttpLoggingInterceptor.Level.BODY);
-        /*OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor)
-                .build();*/
 
         OkHttpClient client = getUnsafeOkHttpClient(interceptor);
         return new Retrofit.Builder()
@@ -93,7 +95,7 @@ public class RetroClient {
      *
      * @return API Service
      */
-    public static ApiService getApiService() {
-        return getRetrofitInstance().create(ApiService.class);
+    public static ApiService getApiService(Context context) {
+        return getRetrofitInstance(context).create(ApiService.class);
     }
 }

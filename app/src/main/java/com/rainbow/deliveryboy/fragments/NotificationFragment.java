@@ -105,7 +105,7 @@ public class NotificationFragment extends BaseFragment<NotificationPresenter, No
     }
 
     private void loadNotifications() {
-        presenter.getAllNotification(strToken, CURRENT_PAGE, PAGE_LIMIT);
+        presenter.getAllNotification(getContext(),strToken, CURRENT_PAGE, PAGE_LIMIT);
     }
 
 

@@ -1,5 +1,7 @@
 package com.rainbow.deliveryboy.presenter;
 
+import android.content.Context;
+
 import com.rainbow.deliveryboy.api.ApiService;
 import com.rainbow.deliveryboy.api.RetroClient;
 import com.rainbow.deliveryboy.base.BaseActivity;
@@ -38,9 +40,9 @@ public class OtpPresenter extends BasePresenter<OtpView> {
         navigator.openLoginFragment(BaseActivity.PerformFragment.REPLACE, referral_id);
     }
 
-    public void verifyOtp(String otp, String mobile, String token) {
+    public void verifyOtp(Context context, String otp, String mobile, String token) {
         view.showLoader();
-        ApiService api = RetroClient.getApiService();
+        ApiService api = RetroClient.getApiService(context);
 
         JSONObject jsonObject = new JSONObject();
         try {
@@ -83,9 +85,9 @@ public class OtpPresenter extends BasePresenter<OtpView> {
     public void openCreateProfile(String referral_id) {
     }
 
-    public void sendOtp(String mobile) {
+    public void sendOtp(Context context, String mobile) {
         view.showLoader();
-        ApiService api = RetroClient.getApiService();
+        ApiService api = RetroClient.getApiService(context);
 
         JSONObject jsonObject = new JSONObject();
         try {
