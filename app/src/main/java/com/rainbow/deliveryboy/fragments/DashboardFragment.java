@@ -220,7 +220,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter, Dashboar
     }
 
     private void getDashboardData(boolean showLoader) {
-        presenter.getDashboardData(strToken, getContext(),showLoader);
+        presenter.getDashboardData(strToken, getContext(), showLoader);
     }
 
     @Override
@@ -233,7 +233,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter, Dashboar
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_request:
-                if (Double.parseDouble(data.getWallet_amount()) > 0)
+                if (data != null && data.getWallet_amount() != null && Double.parseDouble(data.getWallet_amount()) > 0)
                     presenter.requestAmountSubmit(getContext(), strToken, data.getWallet_amount(), data.getStoreId());
                 break;
         }
